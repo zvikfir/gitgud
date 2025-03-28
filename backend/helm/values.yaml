@@ -1,0 +1,40 @@
+replicaCount: 1
+
+image:
+  repository: gitgud
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: ""
+      paths:
+        - path: /api
+          pathType: Prefix
+    - host: ""
+      paths:
+        - path: /gitlab
+          pathType: Prefix          
+
+extraEnv:
+  - name: GITGUD_NGROK_DOMAIN
+    value: ""
+  - name: GITGUD_GITLAB_CLIENT_ID
+    value: ''
+  - name: GITGUD_GITLAB_CLIENT_SECRET
+    value: ''
+  - name: GITGUD_GITLAB_ACCESS_TOKEN
+    value: ''
+  - name: GITGUD_GITLAB_URI
+    value: 'https://gitlab.com'
+  - name: GITGUD_OPENAI_API_KEY
+    value: ''
+  - name: GITGUD_REDIS_URL
+    value: 'redis://redis-headless:6379'
+  - name: GITGUD_PG_URL
+    value: 'postgresql://admin:admin@postgresql:5432/gitgud'
+  - name: GITGUD_KAFKA_BROKER
+    value: 'kafka.gitgud.svc.cluster.local:9092'

@@ -1,0 +1,65 @@
+FQDN: &FQDN ''
+
+gitgud-backend:
+  replicaCount: 1
+
+  image:
+    repository: joola/gitgud-backend
+    tag: 1.0.6
+    pullPolicy: IfNotPresent
+
+  ingress:
+    enabled: true
+    annotations: 
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: *FQDN
+        paths:
+          - path: /api
+            pathType: Prefix
+      - host: *FQDN
+        paths:
+          - path: /gitlab
+            pathType: Prefix    
+
+  extraEnv:
+    - name: GITGUD_NGROK_DOMAIN
+      value: *FQDN
+    - name: GITGUD_GITLAB_CLIENT_ID
+      value: ''
+    - name: GITGUD_GITLAB_CLIENT_SECRET
+      value: ''
+    - name: GITGUD_GITLAB_ACCESS_TOKEN
+      value: ''
+    - name: GITGUD_GITLAB_URI
+      value: 'https://gitlab.com'
+    - name: GITGUD_OPENAI_API_KEY
+      value: ''
+    - name: GITGUD_REDIS_URL
+      value: 'redis://redis-headless.gitgud.svc.cluster.local:6379'
+    - name: GITGUD_PG_URL
+      value: 'postgresql://admin:admin@postgresql.gitgud.svc.cluster.local:5432/demo'
+    - name: GITGUD_KAFKA_BROKER
+      value: 'kafka.gitgud.svc.cluster.local:9092'
+
+gitgud-frontend:
+  replicaCount: 1
+
+  image:
+    repository: joola/gitgud-frontend
+    tag: 1.0.1
+    pullPolicy: IfNotPresent
+
+  extraEnv:
+    - name: WDS_SOCKET_PORT
+      value: 443
+
+  ingress:
+    enabled: true
+    annotations: 
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: *FQDN
+        paths:
+          - path: /
+            pathType: Prefix

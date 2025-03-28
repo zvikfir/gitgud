@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "gitgud.fullname" . }}"
+  labels:
+    {{- include "gitgud.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gitgud.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gitgud.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3000
+              name: http
+            - containerPort: 9229
+              name: debug
+          {{- if not .Values.debug }}
+          livenessProbe:
+            httpGet: 
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet: 
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+              
+          {{- end }}                 
+          resources:
+            # limits:
+            #   cpu: 1000m
+            #   memory: 2048Mi
+            requests:
+              cpu: 200m
+              memory: 2048Mi
+          {{- if .Values.extraEnv }}
+          env:
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: "{{ .value }}"
+            {{- end }}
+          {{- end }}

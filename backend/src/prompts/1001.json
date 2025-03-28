@@ -1,0 +1,11 @@
+{
+    "temperature": 0.7,
+    "prompt": "You are a technical documentation expert. Given the following policy name and description, create a detailed markdown-formatted long description that explains the policy, its importance, and implementation guidelines:\n\nPolicy Name: {{name}}\nShort Description: {{description}}\n\nPlease provide a comprehensive explanation with sections for Overview, Implementation Details, and Best Practices.",
+    "example": {
+        "input": {
+            "name": "Enforce Branch Naming",
+            "description": "Ensures all branch names follow the company convention"
+        },
+        "output": "# Branch Naming Policy\n\n## Overview\nThis policy enforces consistent branch naming across all repositories, making it easier to track work and automate processes.\n\n## Implementation Details\nBranches must follow the pattern: `type/description-in-kebab-case` where type is one of:\n- feature\n- bugfix\n- hotfix\n- release\n\n## Best Practices\n- Keep descriptions short but meaningful\n- Use lowercase letters and hyphens only\n- Include ticket numbers when applicable"
+    }
+}

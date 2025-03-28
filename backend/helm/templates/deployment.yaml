@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "gitgud.fullname" . }}"
+  labels:
+    {{- include "gitgud.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gitgud.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gitgud.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: migrate
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["npm", "run", "migration:migrate"]
+          env:
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: "{{ .value }}"
+            {{- end }}
+        - name: seed
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["npm", "run", "migration:seed"]
+          env:
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: "{{ .value }}"
+            {{- end }}            
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3001
+              name: http
+            - containerPort: 9229
+              name: debug
+          {{- if not .Values.debug }}
+          livenessProbe:
+            httpGet: 
+              path: /health
+              port: 3001
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet: 
+              path: /health
+              port: 3001
+          {{- end }}
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+          {{- if .Values.extraEnv }}
+          env:
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: "{{ .value }}"
+            {{- end }}
+          {{- end }}

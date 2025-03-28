@@ -1,0 +1,8 @@
+node_modules
+frontend/build
+
+my-policies
+.env
+backend/config/tilt.yaml
+
+.vscode

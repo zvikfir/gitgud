@@ -1,0 +1,66 @@
+{
+	"fake": true,
+	"object_kind": "push",
+	"event_name": "push",
+	"before": "c1666228ae15bb522fe2b34ce960a6879d7badfa",
+	"after": "ea9166e5adaf9b011b314f040767b1bcc2e0ecae",
+	"ref": "refs/heads/main",
+	"ref_protected": false,
+	"checkout_sha": "ea9166e5adaf9b011b314f040767b1bcc2e0ecae",
+	"message": null,
+	"user_id": 1,
+	"user_name": "Administrator",
+	"user_username": "root",
+	"user_email": "",
+	"user_avatar": "https://secure.gravatar.com/avatar/3e01639b2553bab1d9a8ffa988ff939f688b98948ec32df950ead8f2d0b47d19?s=80&d=identicon",
+	"project_id": 204,
+	"project": {
+		"id": 204,
+		"name": "with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"description": "ghaaaacva",
+		"web_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"git_http_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"namespace": "tests",
+		"visibility_level": 0,
+		"path_with_namespace": "gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"default_branch": "main",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"ssh_url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"http_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git"
+	},
+	"commits": [
+		{
+			"id": "ea9166e5adaf9b011b314f040767b1bcc2e0ecae",
+			"message": "Update file README.md",
+			"title": "Update file README.md",
+			"timestamp": "2024-08-11T23:54:13+00:00",
+			"url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8/-/commit/ea9166e5adaf9b011b314f040767b1bcc2e0ecae",
+			"author": {
+				"name": "Administrator",
+				"email": "gitlab_admin_04544a@example.com"
+			},
+			"added": [],
+			"modified": [
+				"README.md"
+			],
+			"removed": []
+		}
+	],
+	"total_commits_count": 1,
+	"push_options": {},
+	"repository": {
+		"name": "with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"description": "ghaaaacva",
+		"homepage": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"git_http_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"git_ssh_url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"visibility_level": 0
+	},
+	"id": "493f9899-8c51-4def-885a-fd7267bc7d41",
+	"timestamp_received": 1723420454585
+}

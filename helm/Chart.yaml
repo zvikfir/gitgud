@@ -1,0 +1,31 @@
+apiVersion: v2
+name: gitgud
+description: The gitgud project helm chart
+
+# The version of the chart
+version: 0.2.0
+
+# The version of the application
+appVersion: "1.0.0"
+
+# A list of keywords to help search for the chart in repositories
+keywords:
+  - nodejs
+  - express
+  - rest-api
+  - webhook
+
+# The maintainers of this chart
+maintainers:
+  - name: Itay Weinberger
+    email: itay@joo.la
+
+
+# Any dependencies this chart has
+dependencies: 
+  - name: gitgud-backend
+    version: 0.2.0
+    repository: "file://../backend/helm"
+  - name: gitgud-frontend
+    version: 0.2.0
+    repository: "file://../frontend/helm"

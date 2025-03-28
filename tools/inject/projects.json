@@ -1,0 +1,369 @@
+[
+  {
+    "id": 1,
+    "name": "Walter White",
+    "stack_name": "Breaking Bad",
+    "languages": [
+      "Java",
+      "Ruby"
+    ],
+    "contributors": 6,
+    "lifecycle_stage": "operational",
+    "commit_count": 12336
+  },
+  {
+    "id": 2,
+    "name": "Jesse Pinkman",
+    "stack_name": "Breaking Bad",
+    "languages": [
+      "JavaScript",
+      "Ruby"
+    ],
+    "contributors": 4,
+    "lifecycle_stage": "incubating",
+    "commit_count": 9704
+  },
+  {
+    "id": 3,
+    "name": "Saul Goodman",
+    "stack_name": "Breaking Bad",
+    "languages": [
+      "JavaScript",
+      "C#"
+    ],
+    "contributors": 6,
+    "lifecycle_stage": "operational",
+    "commit_count": 58128
+  },
+  {
+    "id": 4,
+    "name": "Gus Fring",
+    "stack_name": "Breaking Bad",
+    "languages": [
+      "Python",
+      "C#",
+      "Java"
+    ],
+    "contributors": 13,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 65260
+  },
+  {
+    "id": 5,
+    "name": "Jon Snow",
+    "stack_name": "Game of Thrones",
+    "languages": [
+      "C#",
+      "Ruby"
+    ],
+    "contributors": 5,
+    "lifecycle_stage": "operational",
+    "commit_count": 19390
+  },
+  {
+    "id": 6,
+    "name": "Daenerys Targaryen",
+    "stack_name": "Game of Thrones",
+    "languages": [
+      "Ruby",
+      "Go"
+    ],
+    "contributors": 13,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 19565
+  },
+  {
+    "id": 7,
+    "name": "Arya Stark",
+    "stack_name": "Game of Thrones",
+    "languages": [
+      "Ruby"
+    ],
+    "contributors": 6,
+    "lifecycle_stage": "operational",
+    "commit_count": 22578
+  },
+  {
+    "id": 8,
+    "name": "Tyrion Lannister",
+    "stack_name": "Game of Thrones",
+    "languages": [
+      "Java"
+    ],
+    "contributors": 16,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 108864
+  },
+  {
+    "id": 9,
+    "name": "Eleven",
+    "stack_name": "Stranger Things",
+    "languages": [
+      "C#"
+    ],
+    "contributors": 12,
+    "lifecycle_stage": "operational",
+    "commit_count": 103092
+  },
+  {
+    "id": 10,
+    "name": "Mike Wheeler",
+    "stack_name": "Stranger Things",
+    "languages": [
+      "Rust",
+      "Java"
+    ],
+    "contributors": 13,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 47684
+  },
+  {
+    "id": 11,
+    "name": "Dustin Henderson",
+    "stack_name": "Stranger Things",
+    "languages": [
+      "JavaScript",
+      "C#"
+    ],
+    "contributors": 4,
+    "lifecycle_stage": "incubating",
+    "commit_count": 6720
+  },
+  {
+    "id": 12,
+    "name": "Lucas Sinclair",
+    "stack_name": "Stranger Things",
+    "languages": [
+      "Java",
+      "JavaScript",
+      "Go"
+    ],
+    "contributors": 14,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 48650
+  },
+  {
+    "id": 13,
+    "name": "Din Djarin",
+    "stack_name": "The Mandalorian",
+    "languages": [
+      "Ruby"
+    ],
+    "contributors": 16,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 77376
+  },
+  {
+    "id": 14,
+    "name": "Grogu",
+    "stack_name": "The Mandalorian",
+    "languages": [
+      "Python",
+      "C#",
+      "Go"
+    ],
+    "contributors": 2,
+    "lifecycle_stage": "incubating",
+    "commit_count": 894
+  },
+  {
+    "id": 15,
+    "name": "Cara Dune",
+    "stack_name": "The Mandalorian",
+    "languages": [
+      "JavaScript",
+      "C#"
+    ],
+    "contributors": 9,
+    "lifecycle_stage": "operational",
+    "commit_count": 70245
+  },
+  {
+    "id": 16,
+    "name": "Greef Karga",
+    "stack_name": "The Mandalorian",
+    "languages": [
+      "JavaScript",
+      "Java",
+      "C#"
+    ],
+    "contributors": 14,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 40320
+  },
+  {
+    "id": 17,
+    "name": "Ross Geller",
+    "stack_name": "Friends",
+    "languages": [
+      "C#",
+      "Python"
+    ],
+    "contributors": 16,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 118736
+  },
+  {
+    "id": 18,
+    "name": "Rachel Green",
+    "stack_name": "Friends",
+    "languages": [
+      "JavaScript"
+    ],
+    "contributors": 8,
+    "lifecycle_stage": "operational",
+    "commit_count": 46464
+  },
+  {
+    "id": 19,
+    "name": "Monica Geller",
+    "stack_name": "Friends",
+    "languages": [
+      "Python",
+      "Ruby"
+    ],
+    "contributors": 10,
+    "lifecycle_stage": "operational",
+    "commit_count": 33320
+  },
+  {
+    "id": 20,
+    "name": "Chandler Bing",
+    "stack_name": "Friends",
+    "languages": [
+      "Go"
+    ],
+    "contributors": 14,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 107534
+  },
+  {
+    "id": 21,
+    "name": "Michael Scott",
+    "stack_name": "The Office",
+    "languages": [
+      "Java",
+      "JavaScript"
+    ],
+    "contributors": 3,
+    "lifecycle_stage": "incubating",
+    "commit_count": 16110
+  },
+  {
+    "id": 22,
+    "name": "Dwight Schrute",
+    "stack_name": "The Office",
+    "languages": [
+      "Go",
+      "C#"
+    ],
+    "contributors": 7,
+    "lifecycle_stage": "operational",
+    "commit_count": 9352
+  },
+  {
+    "id": 23,
+    "name": "Jim Halpert",
+    "stack_name": "The Office",
+    "languages": [
+      "Java",
+      "Ruby",
+      "JavaScript"
+    ],
+    "contributors": 7,
+    "lifecycle_stage": "operational",
+    "commit_count": 64652
+  },
+  {
+    "id": 24,
+    "name": "Pam Beesly",
+    "stack_name": "The Office",
+    "languages": [
+      "Python"
+    ],
+    "contributors": 12,
+    "lifecycle_stage": "operational",
+    "commit_count": 103644
+  },
+  {
+    "id": 25,
+    "name": "Sherlock Holmes",
+    "stack_name": "Sherlock",
+    "languages": [
+      "Java"
+    ],
+    "contributors": 5,
+    "lifecycle_stage": "operational",
+    "commit_count": 24485
+  },
+  {
+    "id": 26,
+    "name": "Dr. Watson",
+    "stack_name": "Sherlock",
+    "languages": [
+      "Ruby"
+    ],
+    "contributors": 16,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 15136
+  },
+  {
+    "id": 27,
+    "name": "Mycroft Holmes",
+    "stack_name": "Sherlock",
+    "languages": [
+      "Go",
+      "Python"
+    ],
+    "contributors": 16,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 1424
+  },
+  {
+    "id": 28,
+    "name": "Irene Adler",
+    "stack_name": "Sherlock",
+    "languages": [
+      "Rust",
+      "Go"
+    ],
+    "contributors": 7,
+    "lifecycle_stage": "operational",
+    "commit_count": 52332
+  },
+  {
+    "id": 29,
+    "name": "Independent Hero 1",
+    "stack_name": "Standalone",
+    "languages": [
+      "Rust"
+    ],
+    "contributors": 11,
+    "lifecycle_stage": "operational",
+    "commit_count": 85547
+  },
+  {
+    "id": 30,
+    "name": "Independent Hero 2",
+    "stack_name": "Standalone",
+    "languages": [
+      "Python",
+      "Java"
+    ],
+    "contributors": 15,
+    "lifecycle_stage": "end-of-life",
+    "commit_count": 130515
+  },
+  {
+    "id": 31,
+    "name": "Independent Hero 3",
+    "stack_name": "Standalone",
+    "languages": [
+      "C#",
+      "Go"
+    ],
+    "contributors": 11,
+    "lifecycle_stage": "operational",
+    "commit_count": 24640
+  }
+]

@@ -1,0 +1,20 @@
+gitlab:
+  uri: https://gitlab.com
+  access_token: ""
+kafka:
+  broker: localhost:9092
+api:
+  port: 3000
+frontend:
+  port: 3001
+  auth:
+    provider: gitlab
+webhook: 
+  port: 3002
+  security_token: 123456
+redis:
+  host: redis
+  port: 6379
+  url: redis://localhost:6379
+postgres:
+  url: postgresql://admin:admin@localhost:5432/gitgud

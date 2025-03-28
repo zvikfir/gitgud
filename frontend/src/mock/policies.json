@@ -1,0 +1,698 @@
+{
+    "results": [
+        {
+            "id": 1,
+            "name": "Readme exists",
+            "uuid": "best-practices_readme",
+            "description": "Check if a README.md file exists in the repository. Enhances documentation clarity and fosters effective collaboration.",
+            "version": "1.0.0",
+            "kpiId": 1,
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A `README.md` file serves as the cornerstone of a repository's documentation. It provides essential information about the project, including its purpose, usage, installation instructions, and more. This file is typically the first point of reference for users and contributors, offering a comprehensive overview of the project. Ensuring the presence of a sufficiently detailed `README.md` file is a best practice that facilitates understanding and effective utilization of the project.\n\n## Benefits of This Policy\n\n- **Improved User Experience**: A well-crafted `README.md` file helps users quickly grasp the project's purpose and how to engage with it.\n- **Facilitates Collaboration**: Clear documentation encourages contributions from others by providing necessary guidance.\n- **Professionalism**: A detailed `README.md` reflects a well-maintained and thoughtfully organized project.\n\n## Examples\n\n- **Compliant Repository**: A repository containing a `README.md` file in its default branch that is at least 10 bytes in size.\n- **Non-Compliant Repository**: A repository lacking a `README.md` file or containing one smaller than 10 bytes.\n\n## Remediation Steps\n\nIf a repository lacks a `README.md` file or contains one smaller than 10 bytes, take the following steps:\n\n1. **Create or Update the `README.md` File**:\n   - **For New Files**: Create a `README.md` file in the root directory of the default branch.\n   - **For Existing Files**: Ensure the `README.md` file is updated to meet the minimum size requirement and includes relevant content.\n\n2. **Suggested Content for `README.md`**:\n   - **Project Title**: Clearly state the name of the project.\n   - **Description**: Provide a brief overview of the project's purpose and functionality.\n   - **Installation Instructions**: Detail the steps required to install and set up the project.\n   - **Usage**: Explain how to use the project, including code examples if applicable.\n   - **Contributing**: Outline guidelines for contributing to the project.\n   - **License**: Specify the project's licensing information.\n\nFor a comprehensive guide on crafting effective `README.md` files, consider the following resources:\n\n- [How to Write a Good README File for Your GitHub Project](https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/)\n- [README Best Practices](https://github.com/jehna/readme-best-practices)\n\nBy maintaining a detailed README.md file, the organization improves team collaboration and stakeholder communication, creating a solid foundation for both internal and external project engagement.",
+            "tags": [],
+            "createdAt": "2024-12-02T12:23:48.873Z",
+            "ordinal": 100,
+            "enabled": true,
+            "draft": true,
+            "scriptJs": "async function (context, project, payload) {\n  // ...script logic...\n}",
+            "compliance": [],
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices",
+                "description": "Best Practices"
+            },
+            "executions": [
+                {
+                    "projectName": "gitgud",
+                    "status": 1,
+                    "result": 0,
+                    "createdAt": "2024-12-03T09:02:03.622Z"
+                }
+            ],
+            "totals": {},
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 4,
+            "name": "Minimal Replicas Are Configured",
+            "uuid": "compliance_replicas",
+            "description": "Ensure services have at least 2 replicas for high availability.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Kubernetes workloads should have at least 2 replicas to prevent single points of failure.\n\n## Benefits\n\n- **Improves Resilience**: Reduces downtime risk.\n- **Enhances Load Balancing**: Distributes traffic more effectively.\n\n## Examples\n\n- **Compliant Repository**: `replicas: 2` in the deployment spec.\n- **Non-Compliant Repository**: `replicas: 1` or missing from configuration.\n\n## Remediation Steps\n\n1. Update `replicas` in Kubernetes manifests.\n2. Use `kubectl apply` to redeploy workloads.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:15:00.000Z",
+            "ordinal": 230,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 0,
+                "message": "Error: TLS certificates not used"
+            }
+        },
+        {
+            "id": 10,
+            "name": "Repository Must Have Tests",
+            "uuid": "compliance_tests",
+            "description": "Ensure the repository includes automated tests to validate functionality.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Automated testing is a fundamental practice to prevent regressions and ensure software stability. A repository must include unit, integration, or end-to-end tests.\n\n## Benefits\n\n- **Prevents Bugs**: Reduces defects by validating expected behavior.\n- **Improves Code Maintainability**: Ensures changes don’t break functionality.\n- **Enables CI/CD Integration**: Automates testing for every code change.\n\n## Examples\n\n- **Compliant Repository**: Includes automated tests using frameworks like `Jest`, `Pytest`, `JUnit`, or `Go test`.\n- **Non-Compliant Repository**: Lacks any automated tests.\n\n## Remediation Steps\n\n1. Add unit and integration tests using an appropriate testing framework.\n2. Ensure tests are executed as part of the CI/CD pipeline.\n3. Maintain test coverage as new features are added.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:40:00.000Z",
+            "ordinal": 290,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 0,
+                "message": "Error: TLS certificates not used"
+            }
+        },
+        {
+            "id": 2,
+            "name": "Code Coverage Must Be Above 80%",
+            "uuid": "compliance_coverage",
+            "description": "Ensure at least 80% of the code is covered by automated tests.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Maintaining at least 80% code coverage ensures software is well-tested and reduces the risk of regressions. Code coverage measures how much of the code is executed by tests.\n\n## Benefits\n\n- **Ensures High Code Quality**: Encourages writing testable code.\n- **Reduces Risk of Bugs**: Increases confidence in changes.\n- **Supports Compliance Requirements**: Meets industry best practices for software reliability.\n\n## Examples\n\n- **Compliant Repository**: Enforces an 80%+ test coverage threshold in CI/CD.\n- **Non-Compliant Repository**: Coverage is below 80%, or no measurement exists.\n\n## Remediation Steps\n\n1. Integrate code coverage reporting tools (`Jest --coverage`, `pytest-cov`, `Jacoco`, etc.).\n2. Enforce an 80%+ threshold in CI/CD pipelines.\n3. Improve test coverage by adding missing tests.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:45:00.000Z",
+            "ordinal": 300,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 2,
+            "name": "Dependency Lock File Exists",
+            "uuid": "best-practices_lockfile",
+            "description": "Ensure a dependency lock file exists in the repository. Facilitates stable, reproducible environments and reduces deployment issues.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request",
+                    "Tag Push"
+                ],
+                "ref": "master|main",
+                "lifecycle": "Production",
+                "type": "!Documentation"
+            },
+            "longDescription": "A dependency lock file (`package-lock.json`, `yarn.lock`, `poetry.lock`, etc.) ensures that dependencies are installed consistently across different environments. This helps prevent unexpected behavior due to version mismatches.\n\n## Benefits\n\n- **Ensures Reproducibility**: Guarantees that dependencies are resolved the same way across all environments.\n- **Reduces Dependency Issues**: Prevents accidental upgrades that might break compatibility.\n\n## Examples\n\n- **Compliant Repository**: A repository containing a recognized lock file in the root directory.\n- **Non-Compliant Repository**: A repository missing a lock file.\n\n## Remediation Steps\n\n1. Run the appropriate command to generate a lock file:\n   - `npm install` (Node.js with npm)\n   - `yarn install` (Yarn)\n   - `poetry lock` (Python Poetry)\n2. Commit the generated lock file to the repository.\n\nImplementing a dependency lock file reduces maintenance overhead, ensures consistent deployments, and reinforces the overall stability of the development process.",
+            "tags": [],
+            "createdAt": "2024-12-02T12:50:00.000Z",
+            "ordinal": 110,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 3,
+            "name": "Git Ignore is Configured",
+            "uuid": "best-practices_gitignore",
+            "description": "Ensure a .gitignore file exists in the repository. Mitigates risk of sensitive data exposure and simplifies repository management.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A `.gitignore` file prevents unnecessary or sensitive files from being committed to the repository. It helps keep repositories clean and secure.\n\n## Benefits\n\n- **Prevents Unwanted Files**: Stops build artifacts, secrets, and system files from being committed.\n- **Improves Security**: Reduces the risk of accidentally Pushing sensitive data.\n- **Enhances Performance**: Keeps repository sizes manageable.\n\n## Examples\n\n- **Compliant Repository**: A repository containing a `.gitignore` file with project-appropriate entries.\n- **Non-Compliant Repository**: A repository missing a `.gitignore` file.\n\n## Remediation Steps\n\n1. Create a `.gitignore` file in the root directory.\n2. Use a template from [GitHub’s .gitignore templates](https://github.com/github/gitignore) based on your technology stack.\n3. Commit the `.gitignore` file to the repository.\n\nA well-configured .gitignore streamlines the development process by reducing clutter and potential security risks, allowing the team to focus on core development tasks.",
+            "tags": [],
+            "createdAt": "2024-12-02T12:55:00.000Z",
+            "ordinal": 120,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 4,
+            "name": "Contributing Guidelines Exist",
+            "uuid": "best-practices_contributing",
+            "description": "Ensure a CONTRIBUTING.md file exists in the repository. Establishes clear contribution guidelines to empower developers.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A `CONTRIBUTING.md` file provides guidance on how to contribute to a project. It standardizes the contribution process and encourages participation.\n\n## Benefits\n\n- **Encourages Contributions**: Lowers the barrier for new developers.\n- **Standardizes Contribution Process**: Defines best practices for pull requests, issues, and discussions.\n\n## Examples\n\n- **Compliant Repository**: A repository containing a well-documented `CONTRIBUTING.md` file.\n- **Non-Compliant Repository**: A repository missing a `CONTRIBUTING.md` file.\n\n## Remediation Steps\n\n1. Create a `CONTRIBUTING.md` file in the root directory.\n2. Define:\n   - How to fork and clone the repository.\n   - Guidelines for submitting issues and pull requests.\n   - Code style and testing practices.\n\nThis guideline empowers team members by providing clear directions for contribution, thus promoting a more collaborative and efficient development environment.",
+            "tags": [],
+            "createdAt": "2024-12-02T13:00:00.000Z",
+            "ordinal": 130,
+            "enabled": true,
+            "draft": true,
+            "irrelevant": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 5,
+            "name": "Docker Compose / Tiltfile Exists",
+            "uuid": "best-practices_docker-tilt",
+            "description": "Ensure a Docker Compose or Tiltfile exists in the repository. Streamlines service configuration and accelerates development setup.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request",
+                    "Tag Push"
+                ],
+                "ref": "master|main",
+                "type": "!Documentation"
+            },
+            "longDescription": "A `docker-compose.yml` or `Tiltfile` simplifies local development and deployment by defining services, dependencies, and configurations.\n\n## Benefits\n\n- **Standardized Local Development**: Provides an easy way to run services.\n- **Improves Onboarding**: New developers can quickly spin up the environment.\n- **Facilitates CI/CD Integration**: Enables automated builds and tests.\n\n## Examples\n\n- **Compliant Repository**: A repository containing either `docker-compose.yml` or `Tiltfile`.\n- **Non-Compliant Repository**: A repository missing both files.\n\n## Remediation Steps\n\n1. Create a `docker-compose.yml` or `Tiltfile` in the root directory.\n2. Define essential services and dependencies.\n3. Commit the file to the repository.\n\nStandardizing the development setup minimizes onboarding time and reinforces reliable deployment practices, ultimately increasing team productivity.",
+            "tags": [],
+            "createdAt": "2024-12-02T13:05:00.000Z",
+            "ordinal": 140,
+            "enabled": true,
+            "draft": true,
+            "irrelevant": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 1,
+            "name": "Secrets Are Not in Code",
+            "uuid": "compliance_secrets",
+            "description": "Ensure no hardcoded secrets (API keys, passwords, private keys) exist in the repository.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Hardcoded secrets in code pose serious security risks, as they can be exposed through version control history.\n\n## Benefits\n\n- **Prevents Credential Leaks**: Ensures secrets are properly managed.\n- **Encourages Secure Storage**: Developers use environment variables or secret management tools instead.\n\n## Examples\n\n- **Compliant Repository**: Uses a secret manager (e.g., Vault, AWS Secrets Manager) instead of hardcoding.\n- **Non-Compliant Repository**: Contains passwords, API keys, or certificates in the codebase.\n\n## Remediation Steps\n\n1. **Remove secrets from the repository** and rotate compromised credentials.\n2. **Use a secrets manager** for secure storage.\n3. **Configure `.gitignore`** to prevent committing `.env` or other sensitive files.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:00:00.000Z",
+            "ordinal": 200,
+            "enabled": true,
+            "draft": true
+        },
+        {
+            "id": 2,
+            "name": "Code Uses Approved Dependencies",
+            "uuid": "compliance_dependencies",
+            "description": "Ensure dependencies come from approved internal or trusted sources.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Ensuring dependencies are pulled from approved sources prevents the risk of supply chain attacks.\n\n## Benefits\n\n- **Prevents Malware Injection**: Blocks untrusted third-party dependencies.\n- **Ensures Compliance**: Ensures packages adhere to organizational security policies.\n\n## Examples\n\n- **Compliant Repository**: Uses an internal artifact registry for package dependencies.\n- **Non-Compliant Repository**: Pulls dependencies from public sources without verification.\n\n## Remediation Steps\n\n1. **Audit existing dependencies** and replace untrusted sources.\n2. **Configure package managers** to only use internal repositories.\n3. **Implement automated dependency scanning** in CI/CD pipelines.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:05:00.000Z",
+            "ordinal": 210,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 3,
+            "name": "Branch Protection Rules Exist",
+            "uuid": "compliance_branch_protection",
+            "description": "Ensure branch protection rules are in place (e.g., required reviews, status checks).",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Branch protection rules help enforce best practices and prevent accidental or malicious changes.\n\n## Benefits\n\n- **Ensures Code Quality**: Requires reviews before merging.\n- **Prevents Direct Pushes**: Protects critical branches.\n\n## Examples\n\n- **Compliant Repository**: Has `main` protected with required approvals.\n- **Non-Compliant Repository**: Allows direct pushes to `main` without review.\n\n## Remediation Steps\n\n1. Enable branch protection in Git settings.\n2. Require at least one code review before merging.\n3. Enforce CI/CD checks on pull requests.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:10:00.000Z",
+            "ordinal": 220,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 5,
+            "name": "Multi-Site High Availability is Configured",
+            "uuid": "compliance_multi_site_ha",
+            "description": "Ensure critical services are deployed across multiple on-prem sites.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Deploying critical services across multiple sites ensures continued operation in case of hardware failures or regional outages.\n\n## Benefits\n\n- **Enhances Redundancy**: Reduces risk of complete service failure.\n- **Supports Disaster Recovery**: Ensures continuity in case of hardware or site failure.\n\n## Examples\n\n- **Compliant Repository**: Services deployed across multiple data centers.\n- **Non-Compliant Repository**: Services restricted to a single site.\n\n## Remediation Steps\n\n1. Update infrastructure configuration to enable multi-site deployment.\n2. Ensure load balancers distribute traffic across all available sites.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:20:00.000Z",
+            "ordinal": 240,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 6,
+            "name": "Container Images Are Scanned for Vulnerabilities",
+            "uuid": "compliance_container_scan",
+            "description": "Ensure container images are scanned for vulnerabilities before deployment.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Scanning container images before deployment helps detect security vulnerabilities in dependencies and base images.\n\n## Benefits\n\n- **Reduces Security Risks**: Prevents deployment of vulnerable images.\n- **Enforces Compliance**: Meets security audit requirements.\n\n## Examples\n\n- **Compliant Repository**: Uses tools like Trivy, Grype, or Clair to scan images before deployment.\n- **Non-Compliant Repository**: Deploys images without security scanning.\n\n## Remediation Steps\n\n1. Integrate an image scanning tool into the CI/CD pipeline.\n2. Block deployment of images with critical vulnerabilities.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:25:00.000Z",
+            "ordinal": 250,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 7,
+            "name": "RBAC Policies Are Enforced",
+            "uuid": "compliance_rbac",
+            "description": "Ensure Kubernetes Role-Based Access Control (RBAC) is properly configured.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "RBAC ensures that users and services have the least privilege necessary to perform their actions.\n\n## Benefits\n\n- **Minimizes Security Risks**: Prevents unauthorized access.\n- **Supports Compliance**: Ensures access is properly controlled.\n\n## Examples\n\n- **Compliant Repository**: Uses Kubernetes `Role` and `RoleBinding` to limit access.\n- **Non-Compliant Repository**: Grants excessive permissions to users or services.\n\n## Remediation Steps\n\n1. Review RBAC policies to ensure least privilege.\n2. Use namespace-scoped roles instead of cluster-wide permissions.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:30:00.000Z",
+            "ordinal": 260,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 8,
+            "name": "Audit Logging is Enabled",
+            "uuid": "compliance_audit_logs",
+            "description": "Ensure services and infrastructure components have audit logging enabled.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Audit logs provide traceability for changes and actions performed on critical systems.\n\n## Benefits\n\n- **Enhances Security**: Provides insights into user actions.\n- **Supports Compliance**: Required for security audits.\n\n## Examples\n\n- **Compliant Repository**: Logs API calls, authentication events, and administrative actions.\n- **Non-Compliant Repository**: Lacks logging or logs minimal data.\n\n## Remediation Steps\n\n1. Enable audit logging in application and infrastructure components.\n2. Store logs in a secure and tamper-proof location.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:35:00.000Z",
+            "ordinal": 270,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 9,
+            "name": "No Hardcoded Configuration",
+            "uuid": "compliance_hardcoded_config",
+            "description": "Ensure applications retrieve configuration from environment variables or configuration management tools.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Storing configuration in code makes it difficult to manage environment-specific settings and increases security risks.\n\n## Benefits\n\n- **Improves Security**: Prevents sensitive information from being hardcoded.\n- **Simplifies Management**: Allows flexible configuration changes.\n\n## Examples\n\n- **Compliant Repository**: Uses environment variables or external configuration services.\n- **Non-Compliant Repository**: Stores database credentials or URLs directly in code.\n\n## Remediation Steps\n\n1. Move configuration values to environment variables.\n2. Use configuration management tools like Consul or Kubernetes ConfigMaps.",
+            "tags": [],
+            "createdAt": "2024-12-02T14:40:00.000Z",
+            "ordinal": 280,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 11,
+            "name": "Artifacts Are Stored in an Internal Registry",
+            "uuid": "compliance_internal_registry",
+            "description": "Ensure build artifacts and container images are only pulled from a trusted internal registry.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 2,
+                "name": "Compliance"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 1,
+            "name": "TLS is Enforced for Ingress",
+            "uuid": "resilience_tls",
+            "description": "Ensure all exposed services enforce TLS encryption to protect data in transit.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Transport Layer Security (TLS) protects communication between services by encrypting data in transit. It is a fundamental requirement for securing on-prem deployments.\n\n## Benefits\n\n- **Prevents Data Interception**: Ensures encrypted communication.\n- **Enhances Security**: Protects against man-in-the-middle attacks.\n- **Regulatory Compliance**: Aligns with security best practices.\n\n## Examples\n\n- **Compliant Repository**: Ingress controllers enforce HTTPS with a valid TLS certificate.\n- **Non-Compliant Repository**: Services expose HTTP endpoints without TLS enforcement.\n\n## Remediation Steps\n\n1. Configure TLS in ingress controllers (e.g., NGINX, Traefik, HAProxy).\n2. Use an internal Certificate Authority (CA) for generating certificates.\n3. Ensure all external and internal traffic uses HTTPS.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:00:00.000Z",
+            "ordinal": 300,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 0,
+                "message": "Error: TLS certificates not used"
+            }
+        },
+        {
+            "id": 2,
+            "name": "Services Have Health Checks",
+            "uuid": "resilience_health_checks",
+            "description": "Ensure Kubernetes deployments have liveness and readiness probes for service monitoring.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Liveness and readiness probes ensure services remain responsive and are restarted automatically if needed.\n\n## Benefits\n\n- **Improves Fault Detection**: Helps Kubernetes identify and restart failing pods.\n- **Enhances System Stability**: Ensures services are only available when ready.\n- **Reduces Downtime**: Prevents cascading failures in microservices.\n\n## Examples\n\n- **Compliant Repository**: Uses `livenessProbe` and `readinessProbe` in Kubernetes deployment specs.\n- **Non-Compliant Repository**: Lacks health probes, leading to undetected service failures.\n\n## Remediation Steps\n\n1. Add `livenessProbe` and `readinessProbe` to deployment configurations.\n2. Use HTTP or command-based checks for validation.\n3. Ensure probes are configured with appropriate thresholds.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:05:00.000Z",
+            "ordinal": 310,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 3,
+            "name": "Backups Are Configured and Tested",
+            "uuid": "resilience_backups",
+            "description": "Ensure critical data has a backup strategy with automated testing.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A reliable backup strategy ensures data can be restored in case of failure or corruption. Regular testing of backups verifies integrity and recoverability.\n\n## Benefits\n\n- **Prevents Data Loss**: Ensures critical data is restorable.\n- **Improves Disaster Recovery**: Enables quick recovery from incidents.\n- **Verifies Backup Integrity**: Ensures backups are valid and usable.\n\n## Examples\n\n- **Compliant Repository**: Regular, automated backups exist, and recovery procedures are tested.\n- **Non-Compliant Repository**: No automated backups or unverified backup procedures.\n\n## Remediation Steps\n\n1. Implement automated backups for databases, configurations, and important files.\n2. Store backups securely with versioning.\n3. Test recovery processes on a scheduled basis.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:10:00.000Z",
+            "ordinal": 320,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 4,
+            "name": "Auto-Restart Policies Are Enabled",
+            "uuid": "resilience_auto_restart",
+            "description": "Ensure Kubernetes workloads have restart policies for automatic recovery.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Automatically restarting failed services prevents prolonged downtime and improves system resilience.\n\n## Benefits\n\n- **Ensures Service Availability**: Reduces manual intervention.\n- **Improves Self-Healing**: Enables automatic recovery from transient failures.\n- **Minimizes Outages**: Prevents minor failures from escalating.\n\n## Examples\n\n- **Compliant Repository**: Uses `restartPolicy: Always` in Kubernetes configurations.\n- **Non-Compliant Repository**: Lacks restart policies, leading to manual recovery efforts.\n\n## Remediation Steps\n\n1. Set `restartPolicy: Always` in Kubernetes deployment specs.\n2. Ensure pods are monitored with health probes to trigger restarts.\n3. Implement alerting mechanisms for repeated failures.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:15:00.000Z",
+            "ordinal": 330,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 5,
+            "name": "Disaster Recovery Plan Exists",
+            "uuid": "resilience_dr_plan",
+            "description": "Ensure a structured disaster recovery plan is in place for system failures.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 3,
+                "name": "Resilience"
+            },
+            "criteria": {
+                "events": [
+                    "Push"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A disaster recovery (DR) plan defines procedures for responding to system failures and outages, ensuring continuity of operations.\n\n## Benefits\n\n- **Improves Recovery Speed**: Reduces downtime during failures.\n- **Ensures Business Continuity**: Helps maintain operations under unexpected conditions.\n- **Provides Clear Incident Response**: Defines roles and responsibilities.\n\n## Examples\n\n- **Compliant Repository**: Maintains a documented DR plan with defined recovery procedures.\n- **Non-Compliant Repository**: Lacks formal recovery documentation.\n\n## Remediation Steps\n\n1. Develop a DR plan covering service restoration, failover procedures, and recovery timelines.\n2. Regularly review and update the DR plan based on operational changes.\n3. Conduct periodic DR tests to validate effectiveness.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:20:00.000Z",
+            "ordinal": 340,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 7,
+            "name": "Repository is Linked to a Jira Project",
+            "uuid": "best-practices_jira",
+            "description": "Ensure that the repository is associated with a Jira project for issue tracking.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "Integrating Jira with repositories ensures that issues, feature requests, and bugs are properly tracked. This helps with traceability between code changes and project management.\n\n## Benefits\n\n- **Enhances Issue Tracking**: Links commits and PRs to Jira issues.\n- **Improves Traceability**: Ensures every change is linked to a work item.\n- **Facilitates Collaboration**: Enables teams to track development progress efficiently.\n\n## Examples\n\n- **Compliant Repository**: The repository is linked to a Jira project, and commits reference Jira issue keys (e.g., `PROJECT-123`).\n- **Non-Compliant Repository**: No Jira project link exists, and commits lack issue references.\n\n## Remediation Steps\n\n1. Configure Jira integration in the repository settings.\n2. Ensure that commits and PRs follow a convention (e.g., `PROJECT-123: Fix authentication bug`).\n3. Enforce Jira issue references in pull requests.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:30:00.000Z",
+            "ordinal": 160,
+            "enabled": true,
+            "draft": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        },
+        {
+            "id": 8,
+            "name": "Repository Has a Maintainer File",
+            "uuid": "best-practices_maintainers",
+            "description": "Ensure a MAINTAINERS.md file exists to define project ownership.",
+            "version": "1.0.0",
+            "kpi": {
+                "id": 1,
+                "name": "Best Practices"
+            },
+            "criteria": {
+                "events": [
+                    "Push",
+                    "Merge Request"
+                ],
+                "ref": "master|main"
+            },
+            "longDescription": "A `MAINTAINERS.md` file lists key contributors responsible for the repository. This ensures there is clear ownership for support, decision-making, and project continuity.\n\n## Benefits\n\n- **Improves Supportability**: Ensures developers know who to contact for assistance.\n- **Prevents Abandonment**: Helps with project sustainability and knowledge transfer.\n- **Enhances Governance**: Establishes responsibility and accountability.\n\n## Examples\n\n- **Compliant Repository**: Includes `MAINTAINERS.md` listing maintainers, roles, and contact information.\n- **Non-Compliant Repository**: Lacks a `MAINTAINERS.md` file, making it unclear who is responsible.\n\n## Remediation Steps\n\n1. Create a `MAINTAINERS.md` file in the root directory.\n2. List maintainers, their roles, and preferred contact methods.\n3. Keep the file updated as ownership changes.",
+            "tags": [],
+            "createdAt": "2024-12-02T15:35:00.000Z",
+            "ordinal": 170,
+            "enabled": true,
+            "draft": true,
+            "irrelevant": true,
+            "last_execution": {
+                "status": 1,
+                "result": 1,
+                "message": ""
+            }
+        }
+    ]
+}

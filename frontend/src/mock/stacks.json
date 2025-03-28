@@ -1,0 +1,70 @@
+{
+  "stacks": [
+    {
+      "name": "Turing Stack",
+      "description": "Inspired by Alan Turing, the pioneer of computer science and the Turing Machine; a tribute to innovation and deductive reasoning.",
+      "projects": [
+        "Enigma",
+        "Bombe",
+        "Halting",
+        "Oracle",
+        "Lambda"
+      ]
+    },
+    {
+      "name": "Euler Stack",
+      "description": "Named after Leonhard Euler, celebrated for his contributions to mathematics; this stack emphasizes elegant solutions and deep analytical thought.",
+      "projects": [
+        "Graphene",
+        "Prime",
+        "Eulerian",
+        "Totient",
+        "Gamma"
+      ]
+    },
+    {
+      "name": "Shannon Stack",
+      "description": "Celebrating Claude Shannon, the architect of modern digital communication and information theory; perfect for data-driven projects.",
+      "projects": [
+        "Entropy",
+        "NoisyChannel",
+        "Hamming",
+        "Bitwise",
+        "Redundancy"
+      ]
+    },
+    {
+      "name": "Gauss Stack",
+      "description": "Honoring Carl Friedrich Gauss, a central figure in both statistics and number theory; designed for projects requiring precise numerical computation.",
+      "projects": [
+        "Modulus",
+        "Gaussian",
+        "PrimeField",
+        "Variance",
+        "ChiSquare"
+      ]
+    },
+    {
+      "name": "Diffie-Stack",
+      "description": "Inspired by the Diffie-Hellman key exchange, this stack champions secure cryptographic practices and innovative key handling.",
+      "projects": [
+        "Exponent",
+        "Modulus",
+        "Handshake",
+        "KeySpace",
+        "Elliptic"
+      ]
+    },
+    {
+      "name": "Gödel Stack",
+      "description": "Named after Kurt Gödel, whose work on incompleteness reshaped logic; this stack pushes the boundaries of theoretical exploration in computing.",
+      "projects": [
+        "Proof",
+        "Undecidable",
+        "Axiom",
+        "Paradox",
+        "Infinity"
+      ]
+    }
+  ]
+}

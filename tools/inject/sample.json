@@ -1,0 +1,30 @@
+{
+	"fake": true,
+	"object_kind": "push",
+	"event_name": "push",
+	"ref": "refs/heads/main",
+	"user_id": 1,
+	"user_name": "Administrator",
+	"user_username": "root",
+	"user_email": "",
+	"user_avatar": "https://secure.gravatar.com/avatar/3e01639b2553bab1d9a8ffa988ff939f688b98948ec32df950ead8f2d0b47d19?s=80&d=identicon",
+	"project_id": 204,
+	"project": {
+		"id": 204,
+		"name": "with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"description": "ghaaaacva",
+		"web_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"git_http_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"namespace": "tests",
+		"visibility_level": 0,
+		"path_with_namespace": "gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"default_branch": "main",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8",
+		"url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"ssh_url": "git@gitlab.gitgud.joo.la:gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git",
+		"http_url": "https://gitlab.gitgud.joo.la/gitgud/tests/with-dockerfile-d252275d1f520f0994d37c09c6ce41f8.git"
+	}
+}

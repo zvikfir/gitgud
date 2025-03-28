@@ -1,0 +1,517 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "name": "Enigma",
+      "description": "Enigma unravels complex puzzles with a blend of cryptographic artistry and innovative computing.",
+      "pathWithNamespace": "org/turing/enigma",
+      "stacks": [ { "name": "Turing Stack" } ],
+      "lifecycleName": "Early Development",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c1", "name": "Alan Turing" },
+        { "id": "c2", "name": "Ada Lovelace" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 5, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 8, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Graphene",
+      "description": "Graphene forges robust connections through elegant design and seamless integration in computational frameworks.",
+      "pathWithNamespace": "org/euler/graphene",
+      "stacks": [ { "name": "Euler Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "DLL" } ],
+      "languages": [ { "name": "TypeScript" }, { "name": "Python" } ],
+      "contributors": [
+        { "id": "c3", "name": "Leonhard Euler" },
+        { "id": "c4", "name": "Srinivasa Ramanujan" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 7, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 11, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 5, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Entropy",
+      "description": "Entropy orchestrates the delicate balance between chaos and order, transforming randomness into actionable insight.",
+      "pathWithNamespace": "org/shannon/entropy",
+      "stacks": [ { "name": "Shannon Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Documentation" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c5", "name": "Claude Shannon" },
+        { "id": "c6", "name": "Warren Weaver" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 4, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 6, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 3, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Modulus",
+      "description": "Modulus applies the elegance of modular arithmetic, offering precise computation and dynamic scalability.",
+      "pathWithNamespace": "org/gauss/modulus",
+      "stacks": [ { "name": "Gauss Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "CLI" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c7", "name": "Carl Friedrich Gauss" },
+        { "id": "c8", "name": "Adrien-Marie Legendre" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Bombe",
+      "description": "Bombe deciphers complex encryptions through analytical prowess and logical ingenuity.",
+      "pathWithNamespace": "org/turing/bombe",
+      "stacks": [ { "name": "Turing Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Executable" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c9", "name": "Grace Hopper" },
+        { "id": "c10", "name": "Alan Turing" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 5, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 7, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 3, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Prime",
+      "description": "Prime optimizes number theoretic computations, delivering efficient performance with refined precision.",
+      "pathWithNamespace": "org/euler/prime",
+      "stacks": [ { "name": "Euler Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "TypeScript" }, { "name": "SCSS" } ],
+      "contributors": [
+        { "id": "c11", "name": "Leonhard Euler" },
+        { "id": "c12", "name": "Pierre de Fermat" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 7, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 11, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 5, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "NoisyChannel",
+      "description": "NoisyChannel streamlines error correction, ensuring crystal-clear signal integrity across transmissions.",
+      "pathWithNamespace": "org/shannon/noisychannel",
+      "stacks": [ { "name": "Shannon Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Lambda" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c13", "name": "Claude Shannon" },
+        { "id": "c14", "name": "Norbert Wiener" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 10, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Gaussian",
+      "description": "Gaussian leverages statistical modeling to shape data into meaningful patterns.",
+      "pathWithNamespace": "org/gauss/gaussian",
+      "stacks": [ { "name": "Gauss Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c15", "name": "Carl Friedrich Gauss" },
+        { "id": "c16", "name": "Karl Weierstrass" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 5, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 8, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Halting",
+      "description": "Halting orchestrates execution control with systematic precision, ensuring smooth and monitored workflows.",
+      "pathWithNamespace": "org/turing/halting",
+      "stacks": [ { "name": "Turing Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "DLL" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c17", "name": "Alan Turing" },
+        { "id": "c18", "name": "Alonzo Church" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 7, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 11, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 5, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Eulerian",
+      "description": "Eulerian refines complex routing algorithms, culminating in optimal computational workflows.",
+      "pathWithNamespace": "org/euler/eulerian",
+      "stacks": [ { "name": "Euler Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Documentation" } ],
+      "languages": [ { "name": "TypeScript" }, { "name": "SCSS" } ],
+      "contributors": [
+        { "id": "c19", "name": "Leonhard Euler" },
+        { "id": "c20", "name": "Joseph-Louis Lagrange" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 4, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 6, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 3, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Hamming",
+      "description": "Hamming enhances data reliability through advanced error correction and innovative cryptographic techniques.",
+      "pathWithNamespace": "org/shannon/hamming",
+      "stacks": [ { "name": "Shannon Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "CLI" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c21", "name": "Richard Hamming" },
+        { "id": "c22", "name": "Claude Shannon" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 5, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 8, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "PrimeField",
+      "description": "PrimeField unlocks the power of finite field arithmetic, transforming complex computations into streamlined solutions.",
+      "pathWithNamespace": "org/gauss/primefield",
+      "stacks": [ { "name": "Gauss Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Executable" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c23", "name": "Carl Friedrich Gauss" },
+        { "id": "c24", "name": "Emil Artin" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 10, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Oracle",
+      "description": "Oracle harnesses predictive analytics and intelligent computations to forecast and optimize outcomes.",
+      "pathWithNamespace": "org/turing/oracle",
+      "stacks": [ { "name": "Turing Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c25", "name": "Alan Turing" },
+        { "id": "c26", "name": "Herbert Simon" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 7, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 11, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 5, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Lambda",
+      "description": "Lambda simplifies complex serverless processing, enabling on-demand computations with agile efficiency.",
+      "pathWithNamespace": "org/turing/lambda",
+      "stacks": [ { "name": "Turing Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Lambda" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c27", "name": "Alonzo Church" },
+        { "id": "c28", "name": "Haskell Curry" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Totient",
+      "description": "Totient computes cryptographic key operations with meticulous design, driven by number theoretic precision.",
+      "pathWithNamespace": "org/euler/totient",
+      "stacks": [ { "name": "Euler Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "TypeScript" }, { "name": "SCSS" } ],
+      "contributors": [
+        { "id": "c29", "name": "Leonhard Euler" },
+        { "id": "c30", "name": "Peter Gustav Lejeune Dirichlet" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Gamma",
+      "description": "Gamma performs advanced mathematical transformations, delivering elegant solutions to computational challenges.",
+      "pathWithNamespace": "org/euler/gamma",
+      "stacks": [ { "name": "Euler Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "DLL" } ],
+      "languages": [ { "name": "TypeScript" }, { "name": "SCSS" } ],
+      "contributors": [
+        { "id": "c31", "name": "Leonhard Euler" },
+        { "id": "c32", "name": "Augustin-Louis Cauchy" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Bitwise",
+      "description": "Bitwise executes precise low-level cryptographic operations, optimizing algorithmic efficiency and security.",
+      "pathWithNamespace": "org/shannon/bitwise",
+      "stacks": [ { "name": "Shannon Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Documentation" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c33", "name": "Claude Shannon" },
+        { "id": "c34", "name": "George Boole" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Redundancy",
+      "description": "Redundancy secures data through robust backup strategies and resilient fault tolerance measures.",
+      "pathWithNamespace": "org/shannon/redundancy",
+      "stacks": [ { "name": "Shannon Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "CLI" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c35", "name": "Richard Hamming" },
+        { "id": "c36", "name": "Elwyn Berlekamp" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Variance",
+      "description": "Variance analyzes data distributions with keen statistical insight, paving the way for informed decisions.",
+      "pathWithNamespace": "org/gauss/variance",
+      "stacks": [ { "name": "Gauss Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Executable" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c37", "name": "Carl Friedrich Gauss" },
+        { "id": "c38", "name": "Andrey Kolmogorov" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "ChiSquare",
+      "description": "ChiSquare conducts rigorous statistical tests, empowering anomaly detection with scientific precision.",
+      "pathWithNamespace": "org/gauss/chisquare",
+      "stacks": [ { "name": "Gauss Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c39", "name": "Karl Pearson" },
+        { "id": "c40", "name": "Ronald Fisher" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Exponent",
+      "description": "Exponent amplifies secure computations, streamlining exponential key exchanges for robust encryption.",
+      "pathWithNamespace": "org/diffie/exponent",
+      "stacks": [ { "name": "Diffie-Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Lambda" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c41", "name": "Whitfield Diffie" },
+        { "id": "c42", "name": "Martin Hellman" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Modulus",
+      "description": "Modulus executes core cryptographic modulus operations, ensuring reliable performance and resilient security.",
+      "pathWithNamespace": "org/diffie/modulus",
+      "stacks": [ { "name": "Diffie-Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c43", "name": "Whitfield Diffie" },
+        { "id": "c44", "name": "Paul Kocher" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Handshake",
+      "description": "Handshake manages secure sessions and authentication, forging trusted connections with precision.",
+      "pathWithNamespace": "org/diffie/handshake",
+      "stacks": [ { "name": "Diffie-Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "DLL" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c45", "name": "Martin Hellman" },
+        { "id": "c46", "name": "Ralph Merkle" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "KeySpace",
+      "description": "KeySpace orchestrates the secure management of digital keys, delivering robust authentication frameworks.",
+      "pathWithNamespace": "org/diffie/keyspace",
+      "stacks": [ { "name": "Diffie-Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Documentation" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c47", "name": "Whitfield Diffie" },
+        { "id": "c48", "name": "Silvio Micali" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Elliptic",
+      "description": "Elliptic leverages elliptical curve algorithms to secure data, blending efficiency with advanced cryptography.",
+      "pathWithNamespace": "org/diffie/elliptic",
+      "stacks": [ { "name": "Diffie-Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "CLI" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "HTML" } ],
+      "contributors": [
+        { "id": "c49", "name": "Victor Miller" },
+        { "id": "c50", "name": "Neal Koblitz" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Proof",
+      "description": "Proof validates complex logical structures, emphasizing formal verification through rigorous analysis.",
+      "pathWithNamespace": "org/godel/proof",
+      "stacks": [ { "name": "Gödel Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Executable" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c51", "name": "Kurt Gödel" },
+        { "id": "c52", "name": "Emil Post" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Undecidable",
+      "description": "Undecidable navigates intricate decision-making landscapes by exploring the boundaries of computational logic.",
+      "pathWithNamespace": "org/godel/undecidable",
+      "stacks": [ { "name": "Gödel Stack" } ],
+      "lifecycleName": "Operational",
+      "runtimes": [ { "name": "Container" } ],
+      "languages": [ { "name": "JavaScript" }, { "name": "CSS" } ],
+      "contributors": [
+        { "id": "c53", "name": "Kurt Gödel" },
+        { "id": "c54", "name": "Stephen Kleene" }
+      ],
+      "kpis": [
+        { "passedPolicyCount": 6, "policyCount": 7, "na": false },
+        { "passedPolicyCount": 9, "policyCount": 11, "na": false },
+        { "passedPolicyCount": 4, "policyCount": 5, "na": false }
+      ]
+    }
+  ]
+}

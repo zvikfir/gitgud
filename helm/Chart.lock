@@ -1,0 +1,9 @@
+dependencies:
+- name: gitgud-backend
+  repository: file://../backend/helm
+  version: 0.2.0
+- name: gitgud-frontend
+  repository: file://../frontend/helm
+  version: 0.2.0
+digest: sha256:02ba5ddee40148acd986ecabc6573eec3007674beff95631ce2e80306582fc88
+generated: "2025-01-15T10:06:39.786585069+02:00"

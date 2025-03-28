@@ -1,0 +1,19 @@
+{
+    "temperature": 0.7,
+    "prompt": "Create a JavaScript implementation for the following policy. The policy should be async and export a handle function:\n\nName: {{name}}\nDescription: {{description}}\nCriteria:\n{{#each criteria}}\n{{@key}}: {{this}}\n{{/each}}\n\nContext object provides:\n- logger.info(msg): Log informational messages\n- logger.error(msg): Log error messages\n- gitlab.get(path): Make GET requests to GitLab API\n- gitlab.head(path): Make HEAD requests to GitLab API\n\nProvide only the function body without any wrapper code.",
+    "example": {
+        "input": {
+            "name": "Helm Chart Exists",
+            "description": "Ensure that a Helm chart exists",
+            "criteria": {
+                "events": [
+                    "push"
+                ],
+                "ref": "^refs/heads/main$",
+                "topics": "^(kubernetes|helm)$"
+            }
+        },
+        "output": "async function handle(context, project) {\n  const { logger, gitlab } = context;\n    logger.info('Checking for Helm chart existence');\n    try {\n    const files = await gitlab.get(`/api/v4/projects/${project.id}/repository/tree`, {\n      path: 'helm'\n    });\n      const hasHelmDir = files.some(f => f.name === 'helm' && f.type === 'tree');\n     if (!hasHelmDir) {\n      logger.error('No helm directory found');\n      return false;\n    }\n      logger.info('Helm directory found');\n    return true;\n  } catch (error) {\n    logger.error(`Failed to check helm directory: ${error.message}`);\n    return false;\n  }\n}"
+    },
+    "model": "gpt-4"
+}

@@ -1,0 +1,28 @@
+{
+    "temperature": 0.7,
+    "prompt": "Based on the following policy details, suggest appropriate KPI, tags, and compliance mappings. The policy implements the following:\n\nName: {{name}}\nDescription: {{description}}\nHelp Text: {{longDescription}}\nScript: {{scriptJs}}\n\nAvailable KPIs:\n{{#each kpis}}\n- {{this.name}}: {{this.description}}\n{{/each}}\n\nProvide response in the following JSON format:\n{\n  \"kpi\": \"<KPI id from the list above>\",\n  \"tags\": [\"suggested\", \"tags\"],\n  \"compliance\": [\n    { \n      \"standard\": \"<exactly ISO27001 or SOC2>\",\n      \"control\": \"control identifier\",\n      \"description\": \"brief explanation\"\n    }\n  ]\n}",
+    "example": {
+        "input": {
+            "name": "Enforce Branch Naming",
+            "description": "Ensures all branch names follow the company convention",
+            "longDescription": "# Branch Naming Policy\n\nEnforces consistent branch naming...",
+            "scriptJs": "async function handle(context, project) {\n  const pattern = /^(feature|bugfix|hotfix)\\/[a-z0-9-]+$/;\n  return pattern.test(project.ref);\n}",
+            "kpis": [
+                {"id": 1, "name": "Security", "description": "Security and access control"},
+                {"id": 2, "name": "Best Practices", "description": "Development best practices"}
+            ]
+        },
+        "output": {
+            "kpi": "2",
+            "tags": ["git", "branch-naming", "conventions"],
+            "compliance": [
+                {
+                    "standard": "SOC2",
+                    "control": "CC6.8",
+                    "description": "Change management policies and procedures"
+                }
+            ]
+        }
+    },
+    "model": "gpt-4"
+}

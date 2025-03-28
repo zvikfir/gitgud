@@ -1,0 +1,25 @@
+apiVersion: v2
+name: gitgud-backend
+description: The gitgud backend
+
+# The version of the chart
+version: 0.2.0
+
+# The version of the application
+appVersion: "1.0.0"
+
+# A list of keywords to help search for the chart in repositories
+keywords:
+  - nodejs
+  - express
+  - rest-api
+  - webhook
+
+# The maintainers of this chart
+maintainers:
+  - name: Itay Weinberger
+    email: itay@joo.la
+
+
+# Any dependencies this chart has
+dependencies: []

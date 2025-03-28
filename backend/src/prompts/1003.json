@@ -1,0 +1,24 @@
+
+{
+    "temperature": 0.7,
+    "prompt": "Based on the following policy details, suggest appropriate criteria patterns. The policy implements the following:\n\nName: {{name}}\nDescription: {{description}}\nScript: {{scriptJs}}\n\nProvide response in the following JSON format:\n{\n  \"events\": [\"event1\", \"event2\"],  // From: push, merge_request, tag_push, issue, deployment\n  \"ref\": \"regex pattern\",  // Git reference pattern\n  \"lifecycle\": \"regex pattern\",  // Project lifecycle pattern\n  \"topics\": \"regex pattern\",  // Project topics pattern\n  \"exclude\": \"regex pattern\",  // Topics to exclude\n  \"path\": \"regex pattern\", // Project path pattern\n  \"runtime\": \"regex pattern\",  // Runtime pattern\n  \"language\": \"regex pattern\",  // Programming language pattern\n  \"status\": [0, 1, 2]  // Previous execution status: 0=Never executed, 1=Passed, 2=Error\n}",
+    "example": {
+        "input": {
+            "name": "Helm Chart Exists",
+            "description": "Ensure that a Helm chart exists",
+            "scriptJs": "async function handle(context, project) {\n  const files = await gitlab.get(`/api/v4/projects/${project.id}/repository/tree`, { path: 'helm' });\n  return files.filter(f => /helm/.test(f.name) && /tree/.test(f.type)).length === 1;\n}"
+        },
+        "output": {
+            "events": ["push"],
+            "ref": "^refs/heads/main$",
+            "lifecycle": "^(production|staging)$",
+            "topics": "^(kubernetes|helm)$",
+            "exclude": "",
+            "path": "",
+            "runtime": "",
+            "language": "",
+            "status": []
+        }
+    },
+    "model": "gpt-4"
+}

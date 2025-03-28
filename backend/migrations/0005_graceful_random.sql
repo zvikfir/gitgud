@@ -1,0 +1,1 @@
+ALTER TABLE "policy_contributors" ADD COLUMN "result" integer NOT NULL;

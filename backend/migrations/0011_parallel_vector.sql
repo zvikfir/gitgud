@@ -1,0 +1,1 @@
+ALTER TABLE "stacks" ADD COLUMN "description" varchar(2048) DEFAULT '' NOT NULL;

@@ -1,0 +1,74 @@
+stages:
+  - build
+  - publish_docker
+  - publish_helm
+
+variables:
+  IMAGE_TAG: $CI_COMMIT_REF_SLUG
+  FRONTEND_IMAGE: $CI_REGISTRY_IMAGE/frontend:$IMAGE_TAG
+  BACKEND_IMAGE: $CI_REGISTRY_IMAGE/backend:$IMAGE_TAG
+  FRONTEND_HELM_CHART: frontend-chart
+  BACKEND_HELM_CHART: backend-chart
+
+build_docker:
+  image: docker:20.10.16
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
+  stage: build
+  script:
+    - docker build -t $FRONTEND_IMAGE frontend/
+  only:
+    - branches
+
+publish_frontend_image:
+  image: docker:20.10.16
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
+  stage: publish_docker
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $FRONTEND_IMAGE frontend/
+    - docker push $FRONTEND_IMAGE
+  only:
+    - master
+
+publish_backend_image:
+  image: docker:20.10.16
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
+  stage: publish_docker
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $BACKEND_IMAGE backend/
+    - docker push $BACKEND_IMAGE
+  only:
+    - master
+
+# Helm package and push for frontend
+package_frontend_helm_chart:
+  image: registry.gitlab.com/joola1/helm-image/helm-image:master
+  stage: publish_helm
+  script:
+    - helm package frontend/helm
+    - echo $(pwd)
+    - ls -al .
+    - curl --fail-with-body --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@./frontend-0.1.0.tgz" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
+  only:
+    - master
+  # replace 12345678 by the Source project id on gitlab    
+
+# Helm package and push for backend
+package_backend_helm_chart:
+  image: registry.gitlab.com/joola1/helm-image/helm-image:master
+  stage: publish_helm
+  script:
+    - helm package backend/helm
+    - echo $(pwd)
+    - ls -al .
+    - curl --fail-with-body --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@./backend-0.1.0.tgz" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
+  only:
+    - master
+
