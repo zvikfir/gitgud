@@ -6,3 +6,4 @@ my-policies
 backend/config/tilt.yaml
 
 .vscode
+.DS_Store

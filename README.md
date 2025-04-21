@@ -59,6 +59,37 @@ This ensures maximum adaptability and customization for your organization's uniq
 
 ---
 
+## GitGud Example Policies
+
+| Policy Name                                | KPI             | Description |
+|-------------------------------------------|-----------------|-------------|
+| Readme exists                              | Best Practices  | Check if a README.md file exists in the repository. |
+| Minimal Replicas Are Configured            | Resilience      | Ensure services have at least 2 replicas for high availability. |
+| Repository Must Have Tests                 | Compliance      | Ensure the repository includes automated tests to validate functionality. |
+| Code Coverage Must Be Above 80%            | Best Practices  | Ensure at least 80% of the code is covered by automated tests. |
+| Dependency Lock File Exists                | Best Practices  | Ensure a dependency lock file exists in the repository. |
+| Git Ignore is Configured                   | Best Practices  | Ensure a .gitignore file exists in the repository. |
+| Contributing Guidelines Exist              | Best Practices  | Ensure a CONTRIBUTING.md file exists in the repository. |
+| Docker Compose / Tiltfile Exists           | Best Practices  | Ensure a Docker Compose or Tiltfile exists in the repository. |
+| Secrets Are Not in Code                    | Compliance      | Ensure no hardcoded secrets (API keys, passwords, private keys) exist in the repository. |
+| Code Uses Approved Dependencies            | Compliance      | Ensure dependencies come from approved internal or trusted sources. |
+| Branch Protection Rules Exist              | Compliance      | Ensure branch protection rules are in place. |
+| Multi-Site High Availability is Configured | Resilience      | Ensure critical services are deployed across multiple on-prem sites. |
+| Container Images Are Scanned for Vulnerabilities | Compliance | Ensure container images are scanned for vulnerabilities before deployment. |
+| RBAC Policies Are Enforced                 | Compliance      | Ensure Kubernetes Role-Based Access Control (RBAC) is properly configured. |
+| Audit Logging is Enabled                   | Compliance      | Ensure services and infrastructure components have audit logging enabled. |
+| No Hardcoded Configuration                 | Compliance      | Ensure applications retrieve configuration from environment variables or configuration management tools. |
+| Artifacts Are Stored in an Internal Registry | Compliance    | Ensure build artifacts and container images are only pulled from a trusted internal registry. |
+| TLS is Enforced for Ingress                | Resilience      | Ensure all exposed services enforce TLS encryption to protect data in transit. |
+| Services Have Health Checks                | Resilience      | Ensure Kubernetes deployments have liveness and readiness probes for service monitoring. |
+| Backups Are Configured and Tested          | Resilience      | Ensure critical data has a backup strategy with automated testing. |
+| Auto-Restart Policies Are Enabled          | Resilience      | Ensure Kubernetes workloads have restart policies for automatic recovery. |
+| Disaster Recovery Plan Exists              | Resilience      | Ensure a structured disaster recovery plan is in place for system failures. |
+| Repository is Linked to a Jira Project     | Best Practices  | Ensure that the repository is associated with a Jira project for issue tracking. |
+| Repository Has a Maintainer File           | Best Practices  | Ensure a MAINTAINERS.md file exists to define project ownership. |
+
+---
+
 ## 🎬 GitGud in Action
 
 See GitGud's capabilities through these visual demonstrations:
