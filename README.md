@@ -29,6 +29,75 @@ GitGud addresses these challenges by offering real-time, automated, and scalable
 
 ---
 
+## ✨ Use Cases
+
+GitGud provides value across various roles within an organization:
+
+-   **For CISOs & Compliance Teams:**
+    -   **Streamlined Compliance:** Map policies directly to industry standards like SOC2, ISO 27001, etc., using built-in compliance tagging features (leveraging LLMs for suggestions).
+    -   **Real-Time Auditing:** Gain instant visibility into the compliance posture across all development projects through comprehensive dashboards and reports.
+    -   **Automated Enforcement:** Ensure critical security and compliance policies (e.g., no secrets in code, vulnerability scanning, RBAC) are consistently applied and enforced.
+
+-   **For DevOps & Platform Teams:**
+    -   **Standardized Practices:** Establish and enforce uniform development standards, best practices, and workflows across all teams and projects.
+    -   **Automated Governance:** Reduce manual oversight by automating policy checks within the Git workflow.
+    -   **Scalable Onboarding:** Easily apply organizational standards to new projects and teams.
+
+-   **For Engineering Management:**
+    -   **Enhanced Visibility:** Get a real-time overview of the organization's DevOps health, adherence to best practices, and compliance status.
+    -   **Data-Driven Decisions:** Use analytics to identify areas needing improvement, track progress, and allocate resources effectively.
+
+-   **For Developers:**
+    -   **Real-Time Feedback:** Receive immediate notifications and guidance directly in their workflow when a commit or merge request violates a policy.
+    -   **Clear Guidance:** Access clear documentation and steps on how to remediate policy violations, promoting learning and adherence.
+    -   **Reduced Friction:** Understand expectations and requirements upfront, leading to smoother development cycles.
+
+---
+
+## 🔥 Quickstart Guide
+
+### Requirements
+
+- A local k8s cluster using [Docker Desktop](https://www.docker.com/products/docker-desktop/) (enable via Settings -> Kubernetes in versions > 28.x.x), [kind](https://kind.sigs.k8s.io), or [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/).
+- [Tilt](https://tilt.dev) for setting a dev environment on a local k8s cluster.
+- [ngrok](https://www.google.com/search?client=safari&rls=en&q=ngrok&ie=UTF-8&oe=UTF-8) for ssh tunneling to allow TLS communication to GitLab.
+  1. Go to the Ngrok website and download the version suitable for your operating system.
+  2. Follow the instructions on creating a free new static domain.
+  3. Update your .env file in the project's root with your GITGUD_NGROK_DOMAIN.
+  4. Install an ingress controller on your local k8s cluster using: `helm upgrade --install --namespace kube-system nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx`
+
+### Installation
+
+```bash
+# for ssh
+git clone git@github.com:zvikfir/gitgud.git
+
+# for https
+git clone https://github.com/zvikfir/gitgud.git
+
+cd gitgud
+
+# npm install packages
+(cd backend && npm i)
+(cd frontend && npm i)
+
+# configure env vars
+cp .env.example .env
+
+# manually set values appropriately
+
+
+# run the system using tilt. By default, all services are deployed in k8s. Frontend and backend are run locally for faster SDLC.
+tilt up
+
+# after postgres is up and running run migrations from another terminal:
+npm run migration:migrate
+npm run migration:seed
+
+```
+
+---
+
 ## 📚 Features
 
 ### 🌀 Git-Driven Workflows
@@ -169,48 +238,6 @@ View the entire GitGud workflow in action:
 - **AI/LLM Integration:** Automated compliance tagging and standards alignment through intelligent models.
 
 ---
-
-## 🔥 Quickstart Guide
-
-### Requirements
-
-- A local k8s cluster using [Docker Desktop](https://www.docker.com/products/docker-desktop/) (enable via Settings -> Kubernetes in versions > 28.x.x), [kind](https://kind.sigs.k8s.io), or [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/).
-- [Tilt](https://tilt.dev) for setting a dev environment on a local k8s cluster.
-- [ngrok](https://www.google.com/search?client=safari&rls=en&q=ngrok&ie=UTF-8&oe=UTF-8) for ssh tunneling to allow TLS communication to GitLab.
-  1. Go to the Ngrok website and download the version suitable for your operating system.
-  2. Follow the instructions on creating a free new static domain.
-  3. Update your .env file in the project's root with your GITGUD_NGROK_DOMAIN.
-  4. Install an ingress controller on your local k8s cluster using: `helm upgrade --install --namespace kube-system nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx`
-
-### Installation
-
-```bash
-# for ssh
-git clone git@github.com:zvikfir/gitgud.git
-
-# for https
-git clone https://github.com/zvikfir/gitgud.git
-
-cd gitgud
-
-# npm install packages
-(cd backend && npm i)
-(cd frontend && npm i)
-
-# configure env vars
-cp .env.example .env
-
-# manually set values appropriately
-
-
-# run the system using tilt. By default, all services are deployed in k8s. Frontend and backend are run locally for faster SDLC.
-tilt up
-
-# after postgres is up and running run migrations from another terminal:
-npm run migration:migrate
-npm run migration:seed
-
-```
 
 ## 💬 Contributing
 
