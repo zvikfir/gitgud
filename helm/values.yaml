@@ -35,8 +35,6 @@ gitgud-backend:
       value: 'https://gitlab.com'
     - name: GITGUD_OPENAI_API_KEY
       value: ''
-    - name: GITGUD_REDIS_URL
-      value: 'redis://redis-headless.gitgud.svc.cluster.local:6379'
     - name: GITGUD_PG_URL
       value: 'postgresql://admin:admin@postgresql.gitgud.svc.cluster.local:5432/demo'
     - name: GITGUD_KAFKA_BROKER

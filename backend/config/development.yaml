@@ -12,9 +12,5 @@ frontend:
 webhook: 
   port: 3002
   security_token: 123456
-redis:
-  host: redis
-  port: 6379
-  url: redis://localhost:6379
 postgres:
   url: postgresql://admin:admin@localhost:5432/gitgud

@@ -34,14 +34,12 @@
     "passport": "^0.7.0",
     "passport-gitlab2": "^5.0.0",
     "postgres": "^3.4.4",
-    "redis": "^4.7.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "unzipper": "^0.12.3"
   },
   "devDependencies": {
     "@types/node": "^22.4.1",
-    "@types/redis": "^4.0.11",
     "drizzle-kit": "^0.24.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",

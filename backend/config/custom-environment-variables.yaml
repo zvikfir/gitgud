@@ -11,5 +11,3 @@ kafka:
   password: GITGUD_KAFKA_PASSWORD
 postgres:
   url: GITGUD_PG_URL
-redis:
-  url: GITGUD_REDIS_URL
