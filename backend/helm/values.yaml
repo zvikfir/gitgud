@@ -32,8 +32,6 @@ extraEnv:
     value: 'https://gitlab.com'
   - name: GITGUD_OPENAI_API_KEY
     value: ''
-  - name: GITGUD_REDIS_URL
-    value: 'redis://redis-headless:6379'
   - name: GITGUD_PG_URL
     value: 'postgresql://admin:admin@postgresql:5432/gitgud'
   - name: GITGUD_KAFKA_BROKER

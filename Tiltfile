@@ -23,7 +23,6 @@ gitlab_client_secret = extract_value_from_env('GITGUD_GITLAB_CLIENT_SECRET')
 gitlab_uri = extract_value_from_env('GITGUD_GITLAB_URI')
 gitlab_access_token = extract_value_from_env('GITGUD_GITLAB_ACCESS_TOKEN')
 openai_api_token = extract_value_from_env('GITGUD_OPENAI_API_KEY')
-redis_url = extract_value_from_env('GITGUD_REDIS_URL')
 pg_url = extract_value_from_env('GITGUD_PG_URL')
 kafka_broker = extract_value_from_env('GITGUD_KAFKA_BROKER')
 kafka_username = extract_value_from_env('GITGUD_KAFKA_USERNAME')
@@ -77,11 +76,6 @@ helm_values = [
     '--set=yamlApplicationConfig.kafka.clusters[0].bootstrapServers=kafka:9092'
 ]
 helm_resource('kafka-ui', 'kafbat/kafka-ui', namespace=namespace,resource_deps=['kafbat'], flags=helm_values, port_forwards=['8080:8080'], labels=['services'])
-helm_values = [
-    '--set=architecture=standalone',
-    '--set=auth.enabled=false'
-]
-helm_resource('redis', 'oci://registry-1.docker.io/bitnamicharts/redis', namespace=namespace, flags=helm_values, port_forwards=['6379:6379'], labels=['services'])
 
 helm_values = [
     '--set=architecture=standalone',
@@ -144,7 +138,7 @@ if backend_mode == 'k8s':
         '--set=ingress.hosts[1].paths[0].path=/gitlab',
         '--set=ingress.hosts[1].paths[0].pathType=Prefix'
     ]
-    helm_resource('backend', chart_directory, namespace=namespace, flags=helm_values, image_deps=["backend"], image_keys=[('image.repository', 'image.tag')], labels="gitgud", deps=["policies", "backend", "kafka", "redis"], port_forwards=["3001:3000", "9229:9229"], links=[ngrok_domain])
+    helm_resource('backend', chart_directory, namespace=namespace, flags=helm_values, image_deps=["backend"], image_keys=[('image.repository', 'image.tag')], labels="gitgud", deps=["policies", "backend", "kafka"], port_forwards=["3001:3000", "9229:9229"], links=[ngrok_domain])
     print('K8S backend deployment done')
 else:
     # Create service for external access

@@ -50,7 +50,7 @@ async function setupSessionCleanup() {
   setInterval(cleanupExpiredSessions, 5 * 60 * 1000);
 }
 
-module.exports = async (redisClient) => {
+module.exports = async () => {
   const app = express();
   const port = process.env.PORT || 3001;
 

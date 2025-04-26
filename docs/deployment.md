@@ -2,14 +2,13 @@
 
 GitGud is designed to integrate seamlessly with Gitlab, providing policy as a service. This means that GitGud helps enforce organizational policies on your Gitlab projects, ensuring compliance and standardization across your development workflows. By leveraging GitGud, you can automate the enforcement of best practices, security policies, and other organizational guidelines.
 
-The deployment process involves setting up both the backend and frontend components, along with necessary integrations such as Redis for caching, PostgreSQL for data storage, and Kafka for handling webhook events. Additionally, GitGud requires proper configuration of Gitlab OAuth and service account tokens to interact securely with your Gitlab instance.
+The deployment process involves setting up both the backend and frontend components, along with necessary integrations such as PostgreSQL for data storage, and Kafka for handling webhook events. Additionally, GitGud requires proper configuration of Gitlab OAuth and service account tokens to interact securely with your Gitlab instance.
 
 At the end of this short guide, you will be able to deploy and perform a sanity check on your GitGud deployment.
 
 ### Checklist
 
 - [ ] [FQDN](#fqdn)
-- [ ] [Redis database](#redis)
 - [ ] [Postgresql database](#postgresql)
 - [ ] [Kafka broker and topics](#kafka)
 - [ ] [Gitlab Application OAuth](#gitlab-oauth-application)
@@ -24,14 +23,6 @@ The FQDN is crucial because it ensures that Gitlab can communicate with GitGud f
 For the rest of this guide, let's assume you will be running GitGud at `https://gitgud.example.com`. Make sure that this domain is correctly configured in your DNS settings and that it points to the server where GitGud is hosted. Additionally, ensure that the domain is secured with an SSL certificate to enable HTTPS.
 
 > Note down the FQDN for use in your environment variables and Gitlab integration.
-
-### Redis
-
-Redis is used as a cache for user sessions, and provide backend parallelism by using Redis' locks. This helps in managing concurrent access to shared resources and improves the overall performance of the application.
-
-To set up Redis, you will need the Redis connection string URL. Typically, this will look something like `redis://username:password@hostname:port`. Ensure that Redis is properly configured and running on your server.
-
-> Note down the Redis connection string URL for use in your environment variables.
 
 ### PostgreSQL
 
