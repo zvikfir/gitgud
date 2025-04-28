@@ -56,9 +56,9 @@ async function createApp() {
 
   // Assign app to global context if needed, though maybe reconsider this pattern
   if (global.context) {
-      global.context.app = app;
+    global.context.app = app;
   } else {
-      global.context = { app };
+    global.context = { app };
   }
 
   app.use(bodyParser.json());
@@ -220,9 +220,9 @@ async function createApp() {
     // Only send 401 if no user was found and the route is not public
     // This check might need refinement depending on your exact public/private routes
     if (!req.path.startsWith('/api/public') && !req.path.startsWith('/gitlab/') && req.path !== '/health') {
-        res.status(401).send("Unauthorized");
+      res.status(401).send("Unauthorized");
     } else {
-        next(); // Allow access to public routes even without session
+      next(); // Allow access to public routes even without session
     }
   });
 
@@ -254,20 +254,6 @@ async function createApp() {
 
   return app; // Return the configured app instance
 }
-
-// Main export for starting the server directly
-module.exports = async () => {
-  const app = await createApp(); // Create the app
-  const port = process.env.PORT || 3001;
-
-  // Start listening
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running on http://0.0.0.0:${port}`);
-    console.log(`Swagger UI available at http://0.0.0.0:${port}/api-docs`);
-  });
-
-  return { app }; // Return app for potential chaining or external use
-};
 
 // Export createApp for testing
 export { createApp };
