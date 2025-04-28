@@ -1,38 +1,44 @@
 const config = require("config");
 const kafka = require("kafka-node");
+const { KafkaClient, ConsumerGroup } = kafka;
 
-const kafkaClientConfig = {
-  kafkaHost: config.get("kafka.broker"),
-  connectTimeout: 3000,
-  requestTimeout: 3000,
-};
-
-if (config.has("kafka.username") && config.has("kafka.password")) {
-  kafkaClientConfig.sasl = {
-    mechanism: 'plain',
-    username: config.get("kafka.username"),
-    password: config.get("kafka.password"),
-  };
-}
-if (config.has("kafka.username") && config.has("kafka.password")) {
-  console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.username")}:${config.get("kafka.broker")}`);
-} else {
-  console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.broker")}`);
-}
-const kafkaClient = new kafka.KafkaClient(kafkaClientConfig);
-
-const { ProjectsModel } = require("../models/projects");
-const { PolicyExecutionsModel } = require("../models/policyExecutions");
-const { PolicyExecutionLogsModel } = require("../models/policyExecutionLogs");
-const { PolicyContributorsModel } = require("../models/policyContributors");
-const { ContributorsModel } = require("../models/contributors");
+// Use dynamic imports for models
+let ProjectsModel, PolicyExecutionsModel, PolicyExecutionLogsModel, PolicyContributorsModel, ContributorsModel;
 
 const gitlab = require("../integrations/gitlab/client");
 const k8sClientFactory = require("../integrations/k8s/client_factory");
 
-module.exports = async () => {
+const consumerOptions = {
+  kafkaHost: config.get("kafka.broker"),
+  groupId: "gitgud-webhook-consumer",
+  sessionTimeout: 15000,
+  protocol: ["roundrobin"],
+  fromOffset: "latest", // equivalent of auto.offset.reset: earliest
+};
 
-  const producer = new kafka.Producer(kafkaClient);
+if (config.has("kafka.username") && config.has("kafka.password")) {
+  consumerOptions.sasl = {
+    mechanism: "plain",
+    username: config.get("kafka.username"),
+    password: config.get("kafka.password"),
+  };
+}
+
+console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.broker")}`);
+
+const consumerGroup = new ConsumerGroup(consumerOptions, ["webhook"]);
+
+module.exports = async () => {
+  // Dynamically import models when the function is called
+  if (!ProjectsModel) {
+    ({ ProjectsModel } = await import("../models/projects.js"));
+    ({ PolicyExecutionsModel } = await import("../models/policyExecutions.js"));
+    ({ PolicyExecutionLogsModel } = await import("../models/policyExecutionLogs.js"));
+    ({ PolicyContributorsModel } = await import("../models/policyContributors.js"));
+    ({ ContributorsModel } = await import("../models/contributors.js"));
+  }
+
+  const producer = new kafka.Producer(new KafkaClient({ kafkaHost: config.get("kafka.broker") }));
   producer.on("ready", () => {
     console.log("Kafka Summaries Producer is connected and ready.");
   });
@@ -47,33 +53,7 @@ module.exports = async () => {
     return await handleFunction(_context, project, event);
   }
 
-  const consumerConfig = {
-    kafkaHost: config.get("kafka.broker"),
-    autoCommit: true,
-    groupId: "gitgud",
-    sessionTimeout: 15000,
-    protocol: ["roundrobin"],
-    encoding: "utf8",
-    fromOffset: "latest",
-    commitOffsetsOnFirstJoin: true,
-    outOfRangeOffset: "earliest",
-  };
-
-  if (config.has("kafka.username") && config.has("kafka.password")) {
-    consumerConfig.sasl = {
-      mechanism: 'plain',
-      username: config.get("kafka.username"),
-      password: config.get("kafka.password"),
-    };
-  }
-
-  const consumer = new kafka.ConsumerGroup(consumerConfig, "webhook");
-
-  consumer.on("error", (err) => {
-    console.log(`Kafka Webhook Consumer connection error: ${err}`);
-  });
-
-  consumer.on("message", async (message) => {
+  consumerGroup.on("message", async (message) => {
     let policyExecutionsModel = new PolicyExecutionsModel();
     let projectsModel = new ProjectsModel();
     let policyExecutionLogsModel = new PolicyExecutionLogsModel();
@@ -256,5 +236,11 @@ module.exports = async () => {
     console.log(
       `Event ${event_type} for project ${project_id} with id ${event.id} processed.`
     );
+  });
+
+  consumerGroup.on("error", (err) => {
+    console.error("Kafka ConsumerGroup error: " + err);
+    // Decide if the error is fatal
+    // process.abort();
   });
 };

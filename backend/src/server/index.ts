@@ -1,16 +1,19 @@
-const config = require("config");
-const express = require("express");
+import { createClient } from '@libsql/client'; // Turso
+import { drizzle } from 'drizzle-orm/libsql';
+import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
+import { Strategy as GitLabStrategy } from 'passport-gitlab2';
+import config from 'config';
+import crypto from 'crypto';
+
 const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 
-const passport = require("passport");
-const GitLabStrategy = require("passport-gitlab2").Strategy;
-const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const crypto = require("crypto");
 
 //this is to allow self-signed certificates
 require('https').globalAgent.options.rejectUnauthorized = false;
@@ -18,7 +21,7 @@ require('https').globalAgent.options.rejectUnauthorized = false;
 const SESSION_EXPIRY = 0;
 
 import db from '../db/client';
-const { users, userTypes, sessions } = require('../db/schema'); // Import the new tables
+import { users, userTypes, sessions } from '../db/schema'; // Changed require to import
 import { eq, lt } from "drizzle-orm";
 
 import projects from "./projects";

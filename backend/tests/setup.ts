@@ -1,78 +1,84 @@
 import { PostgreSqlContainer } from '@testcontainers/postgresql';
-import { beforeAll, afterAll, afterEach, vi } from 'vitest';
+import { KafkaContainer } from '@testcontainers/kafka';
+import { vi } from 'vitest'; // Removed beforeAll, afterAll, afterEach imports
 import supertest from 'supertest';
 import { execSync } from 'child_process';
 import config from 'config';
-import { setupApplication } from '../src/app-setup'; // Import the consolidated setup function
+import { setupApplication } from '../src/app-setup';
 
-vi.setConfig({hookTimeout: 90000}); // 90 seconds for slow CI/docker pulls
+vi.setConfig({hookTimeout: 90000});
 
-let container: any;
-let app: any; // Will hold the Express app
-let request: supertest.SuperTest<supertest.Test>; // Will hold the supertest agent
+let pgContainer: any;
+let kafkaContainer: any;
+let app: any;
+let request: supertest.SuperTest<supertest.Test>;
 
-export async function setupTestApp({ seedFile = 'backend/data/seed-data.json' } = {}) {
-  beforeAll(async () => {
-    console.log('[test-setup] Starting PostgreSQL container...');
-    container = await new PostgreSqlContainer()
-      .withDatabase('postgres')
-      .withUsername('postgres')
-      .withPassword('test')
-      .start();
-    console.log('[test-setup] PostgreSQL container started.');
+// Renamed function to reflect it performs the setup now
+export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-data.json' } = {}) {
+  console.log('[test-setup] Starting PostgreSQL container...');
+  pgContainer = await new PostgreSqlContainer()
+    .withDatabase('postgres')
+    .withUsername('postgres')
+    .withPassword('test')
+    .start();
+  console.log('[test-setup] PostgreSQL container started.');
 
-    const connectionUri = container.getConnectionUri();
-    process.env.DATABASE_URL = connectionUri; // Keep for potential direct use elsewhere
-    process.env.NODE_ENV = 'test';
+  console.log('[test-setup] Starting Kafka container...');
+  kafkaContainer = await new KafkaContainer().start();
+  console.log('[test-setup] Kafka container started.');
 
-    // --- Override node-config --- 
-    console.log(`[test-setup] Overriding config 'postgres.url' with: ${connectionUri}`);
-    config.util.setModuleDefaults('postgres', {
-      url: connectionUri
-    });
-    // --- End Override ---
+  const pgConnectionUri = pgContainer.getConnectionUri();
+  const kafkaBroker = kafkaContainer.getBootstrapServers();
 
-    // --- Setup Application (Context, Services, Express App) ---
-    console.log('[test-setup] Setting up application...');
-    app = await setupApplication(); // Call the consolidated setup function
-    request = supertest(app); // Create supertest agent from the returned app
-    console.log('[test-setup] Application setup complete.');
-    // --- End Setup ---
+  process.env.DATABASE_URL = pgConnectionUri;
+  process.env.NODE_ENV = 'test';
 
-    console.log('[test-setup] Running migrations...');
-    // Ensure config is overridden before migrations if they use the config
-    execSync('npm run migrate', { cwd: 'backend', stdio: 'inherit', env: { ...process.env, GITGUD_PG_URL: connectionUri } }); // Also pass env here just in case migrate runs separately
-    console.log('[test-setup] Migrations complete.');
-
-    // Seed data (optional, adjust as needed)
-    if (seedFile) {
-      console.log(`[test-setup] (Optional) Would seed data from: ${seedFile}`);
-      // execSync(`psql ${process.env.DATABASE_URL} < ${seedFile}`);
-    }
-
-    console.log('[test-setup] Test environment ready.');
-    // return request; // Removed return from beforeAll
+  console.log(`[test-setup] Overriding config 'postgres.url' with: ${pgConnectionUri}`);
+  config.util.setModuleDefaults('postgres', {
+    url: pgConnectionUri
+  });
+  console.log(`[test-setup] Overriding config 'kafka.broker' with: ${kafkaBroker}`);
+  config.util.setModuleDefaults('kafka', {
+    broker: kafkaBroker
   });
 
-  afterAll(async () => {
-    // --- Stop Event Service (Placeholder) ---
-    // if (typeof stop_event_service === 'function') {
-    //   console.log('[test-setup] Stopping event service...');
-    //   await stop_event_service();
-    //   console.log('[test-setup] Event service stopped.');
-    // }
-    // --- End Stop Event Service ---
+  console.log('[test-setup] Setting up application...');
+  app = await setupApplication();
+  request = supertest(app); // Create supertest agent directly
+  console.log('[test-setup] Application setup complete.');
 
-    if (container) {
-      console.log('[test-setup] Stopping PostgreSQL container...');
-      await container.stop();
-      console.log('[test-setup] PostgreSQL container stopped.');
-    }
-  });
+  console.log('[test-setup] Running migrations...');
+  execSync('npm run migrate', { cwd: 'backend', stdio: 'inherit', env: { ...process.env, GITGUD_PG_URL: pgConnectionUri } });
+  console.log('[test-setup] Migrations complete.');
 
-  afterEach(async () => {
-    // Implement table truncation if needed
-  });
+  if (seedFile) {
+    console.log(`[test-setup] (Optional) Would seed data from: ${seedFile}`);
+    // execSync(`psql ${process.env.DATABASE_URL} < ${seedFile}`);
+  }
 
-  return () => request; // Return the function that returns the request object
+  console.log('[test-setup] Test environment ready.');
+  return request; // Return the initialized request object
+}
+
+// New function for cleanup
+export async function cleanupTestEnvironment() {
+  // --- Stop Event Service (Placeholder) ---
+  // if (typeof stop_event_service === 'function') {
+  //   console.log('[test-setup] Stopping event service...');
+  //   await stop_event_service();
+  //   console.log('[test-setup] Event service stopped.');
+  // }
+  // --- End Stop Event Service ---
+
+  if (kafkaContainer) {
+    console.log('[test-setup] Stopping Kafka container...');
+    await kafkaContainer.stop();
+    console.log('[test-setup] Kafka container stopped.');
+  }
+
+  if (pgContainer) {
+    console.log('[test-setup] Stopping PostgreSQL container...');
+    await pgContainer.stop();
+    console.log('[test-setup] PostgreSQL container stopped.');
+  }
 }

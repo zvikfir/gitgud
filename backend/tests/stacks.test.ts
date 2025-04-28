@@ -1,12 +1,19 @@
-import { describe, it, expect, beforeAll } from 'vitest';
-import { setupTestApp } from './setup';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'; // Added afterAll
+import { initializeTestEnvironment, cleanupTestEnvironment } from './setup'; // Import new functions
 
 let request: any; // Will hold the supertest agent
+// Removed getRequest variable
 
 describe('Stacks API', () => {
   beforeAll(async () => {
-    // Setup the app and get the supertest request agent
-    request = await setupTestApp();
+    // Initialize the environment and get the request agent
+    request = await initializeTestEnvironment();
+    // Removed getRequest() call
+  });
+
+  afterAll(async () => {
+    // Cleanup the environment
+    await cleanupTestEnvironment();
   });
 
   describe('GET /api/stacks', () => {
