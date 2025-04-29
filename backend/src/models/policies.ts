@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 import { eq, desc } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { policies, badges, policyCompliance, kpis } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { policies, badges, policyCompliance, kpis } from '../infra/db/schema';
 import { BadgesModel } from './badges';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 

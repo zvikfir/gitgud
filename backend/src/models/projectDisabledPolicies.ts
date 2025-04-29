@@ -1,6 +1,6 @@
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
-import { projectDisabledPolicies } from '../db/schema';
+import db from '../infra/db/client';
+import { projectDisabledPolicies } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class ProjectDisabledPoliciesModel {

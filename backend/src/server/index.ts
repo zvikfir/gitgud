@@ -18,8 +18,8 @@ require('https').globalAgent.options.rejectUnauthorized = false;
 
 const SESSION_EXPIRY = 0;
 
-import { getDb } from '../db/client';
-import { users, userTypes, sessions } from '../db/schema'; // Changed require to import
+import { getDb } from '../infra/db/client';
+import { users, userTypes, sessions } from '../infra/db/schema'; // Changed require to import
 import { eq, lt } from "drizzle-orm";
 
 import projects from "./projects";

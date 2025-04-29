@@ -6,7 +6,7 @@ import { ProjectMembersModel } from '../models/projectMembers';
 import { ProjectContributorsModel } from '../models/projectContributors';
 import { asyncHandler } from './middleware/errorHandler';
 import { ApiError, NotFoundError, ValidationError } from './middleware/errorHandler';
-import { contributors, projectContributors } from '../db/schema';
+import { contributors, projectContributors } from '../infra/db/schema';
 
 const express = require("express");
 const router = express.Router();

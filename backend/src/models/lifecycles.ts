@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { lifecycles, projects } from '../db/schema';  // Import the languages table model
+import { getDb } from '../infra/db/client';
+import { lifecycles, projects } from '../infra/db/schema';  // Import the languages table model
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class LifecyclesModel {

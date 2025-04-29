@@ -1,5 +1,5 @@
-import { getDb } from '../db/client';
-import { userStacks, users, projects, projectContributors, stacks, projectStacks, contributors } from '../db/schema';  // Import the languages table model
+import { getDb } from '../infra/db/client';
+import { userStacks, users, projects, projectContributors, stacks, projectStacks, contributors } from '../infra/db/schema';  // Import the languages table model
 import { unionAll, } from 'drizzle-orm/pg-core'
 import { eq, desc, and, sql } from 'drizzle-orm';
 

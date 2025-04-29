@@ -1,6 +1,6 @@
 import { eq, and } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { projectRuntimes, runtimes } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { projectRuntimes, runtimes } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class ProjectMembersModel {

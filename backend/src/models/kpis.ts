@@ -1,6 +1,6 @@
 import { eq, sql, asc } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { kpis, policyExecutions, policies } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { kpis, policyExecutions, policies } from '../infra/db/schema';
 
 export class KPIsModel {
   async findAll() {

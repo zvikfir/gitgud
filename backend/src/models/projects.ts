@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { projects, languages, owners, stacks, runtimes, projectOwners, projectLanguages, projectStacks, projectRuntimes, members, projectMembers, projectDisabledPolicies, lifecycles, contributors, projectContributors } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { projects, languages, owners, stacks, runtimes, projectOwners, projectLanguages, projectStacks, projectRuntimes, members, projectMembers, projectDisabledPolicies, lifecycles, contributors, projectContributors } from '../infra/db/schema';
 import { OwnersModel } from './owners'
 import { LanguagesModel } from './languages'
 import { LifecyclesModel } from './lifecycles';

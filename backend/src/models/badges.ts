@@ -1,6 +1,6 @@
 import { eq, sql, and, asc } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { badges, policies, policyExecutions } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { badges, policies, policyExecutions } from '../infra/db/schema';
 import { KPIsModel } from './kpis';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 

@@ -1,6 +1,6 @@
 import { eq, sql, ilike } from 'drizzle-orm';
-import { getDb } from '../db/client';
-import { stacks, projectStacks, projects, projectMembers, members, projectContributors, contributors, users } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { stacks, projectStacks, projects, projectMembers, members, projectContributors, contributors, users } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 import { UserStacksModel } from './userStacks';
 

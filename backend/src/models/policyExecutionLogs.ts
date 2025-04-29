@@ -1,5 +1,5 @@
-import { getDb } from '../db/client';
-import { policyExecutionLogs } from '../db/schema';  // Import the languages table model
+import { getDb } from '../infra/db/client';
+import { policyExecutionLogs } from '../infra/db/schema';  // Import the languages table model
 import { eq, desc } from 'drizzle-orm';
 
 export class PolicyExecutionLogsModel {

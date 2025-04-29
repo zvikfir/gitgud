@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 import { asyncHandler } from './middleware/errorHandler';
-import { getDb } from '../db/client';
+import { getDb } from '../infra/db/client';
 import { eq, desc, and } from 'drizzle-orm';
-import { users, policyContributors, policies, projects, policyExecutions } from '../db/schema';
+import { users, policyContributors, policies, projects, policyExecutions } from '../infra/db/schema';
 import { UserStacksModel } from '../models/userStacks';
 
 export default function apiRoutes() {

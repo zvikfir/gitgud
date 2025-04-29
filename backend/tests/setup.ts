@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 import config from 'config';
 import { setupApplication } from '../src/app-setup';
 
-vi.setConfig({hookTimeout: 90000});
+vi.setConfig({ hookTimeout: 90000 });
 
 let pgContainer: StartedPostgreSqlContainer;
 let kafkaContainer: StartedKafkaContainer;
@@ -32,15 +32,16 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
 
   process.env.DATABASE_URL = pgConnectionUri;
   process.env.NODE_ENV = 'test';
+  process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
   console.log(`[test-setup] Overriding config 'postgres.url' with: ${pgConnectionUri}`);
-  config.util.setModuleDefaults('postgres', {
+  config.postgres = {
     url: pgConnectionUri
-  });
+  };
   console.log(`[test-setup] Overriding config 'kafka.broker' with: ${kafkaBroker}`);
-  config.util.setModuleDefaults('kafka', {
+  config.kafka = {
     broker: kafkaBroker
-  });
+  };
 
   console.log('[test-setup] Setting up application...');
   app = await setupApplication();

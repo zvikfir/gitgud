@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { policies, projects, members, projectMembers, policyContributors, policyExecutions, badges, kpis } from "../db/schema";
-import { getDb } from "../db/client";
+import { policies, projects, members, projectMembers, policyContributors, policyExecutions, badges, kpis } from "../infra/db/schema";
+import { getDb } from "../infra/db/client";
 import { and, eq, sql } from "drizzle-orm";
 import { BadgesModel } from "../models/badges";
 
