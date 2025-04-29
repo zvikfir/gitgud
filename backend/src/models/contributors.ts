@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { contributors } from '../db/schema';  // Import the languages table model
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -11,6 +11,7 @@ export class ContributorsModel {
   }
 
   async create(name: string, email: string): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(contributors)
@@ -32,6 +33,7 @@ export class ContributorsModel {
   }
 
   async findOneByName(name: string): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select(
         { id: contributors.id },

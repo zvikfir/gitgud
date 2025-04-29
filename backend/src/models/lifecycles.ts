@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { lifecycles, projects } from '../db/schema';  // Import the languages table model
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -11,6 +11,7 @@ export class LifecyclesModel {
   }
 
   async create(name, description): Promise<any> {
+    const db = getDb();
     // Insert the project
     const existing = await db
       .select()
@@ -32,6 +33,7 @@ export class LifecyclesModel {
   }
   
   async findAll(): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: lifecycles.id,
@@ -48,6 +50,7 @@ export class LifecyclesModel {
   }
 
   async findAllByContributor(contributorExternalId: number): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: lifecycles.id,
@@ -65,6 +68,7 @@ export class LifecyclesModel {
   }
 
   async findOne(id: number): Promise<any> {
+    const db = getDb();
     if (!id) {
       return null;
     }
@@ -78,6 +82,7 @@ export class LifecyclesModel {
   }
 
   async createOrUpdate(data: any): Promise<any> {
+    const db = getDb();
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
@@ -93,6 +98,7 @@ export class LifecyclesModel {
   }
 
   async remove(id: number): Promise<void> {
+    const db = getDb();
     // Then delete the stack
     await db
       .delete(lifecycles)

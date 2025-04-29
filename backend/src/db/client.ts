@@ -1,12 +1,14 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import config from 'config';
 
-const connectionString: string = config.get('postgres.url');
+let dbInstance: ReturnType<typeof drizzle> | null = null;
 
-//console.log(connectionString);
-
-const queryClient = postgres(connectionString);
-const db = drizzle(queryClient, { logger: false });
-
-export default db;
+export function getDb() {
+  if (!dbInstance) {
+    const connectionString: string = config.get('postgres.url');
+    const queryClient = postgres(connectionString);
+    dbInstance = drizzle(queryClient, { logger: false });
+  }
+  return dbInstance;
+}

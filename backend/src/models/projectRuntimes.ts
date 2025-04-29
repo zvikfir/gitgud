@@ -1,6 +1,5 @@
-
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { projectRuntimes, runtimes } from '../db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -12,6 +11,7 @@ export class ProjectMembersModel {
   }
 
   async create(project_id, runtime_id): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(projectRuntimes)
@@ -38,6 +38,7 @@ export class ProjectMembersModel {
 
 
   async findAll(): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: runtimes.id,
@@ -54,6 +55,7 @@ export class ProjectMembersModel {
   }
 
   async findAllByContributor(contributorExternalId: number): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: runtimes.id,
@@ -74,6 +76,7 @@ export class ProjectMembersModel {
     if (!id) {
       return null;
     }
+    const db = getDb();
     const result = await db
       .select()
       .from(runtimes)
@@ -87,6 +90,7 @@ export class ProjectMembersModel {
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
+      const db = getDb();
       const [updated] = await db
         .update(runtimes)
         .set({ name: data.name, description: data.description })
@@ -99,6 +103,7 @@ export class ProjectMembersModel {
   }
 
   async remove(id: number, projectId: number): Promise<void> {
+    const db = getDb();
     // First delete related project_runtimes entries
     await db
       .delete(projectRuntimes)

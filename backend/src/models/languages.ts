@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { languages } from '../db/schema';  // Import the languages table model
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -11,6 +11,7 @@ export class LanguagesModel {
   }
 
   async create(name): Promise<any> {
+    const db = getDb();
     // Insert the project
     const existing = await db
       .select()

@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { projects, languages, owners, stacks, runtimes, projectOwners, projectLanguages, projectStacks, projectRuntimes, members, projectMembers, projectDisabledPolicies, lifecycles, contributors, projectContributors } from '../db/schema';
 import { OwnersModel } from './owners'
 import { LanguagesModel } from './languages'
@@ -29,6 +29,7 @@ export class ProjectsModel {
   }
 
   async create(project: any, add_kpis: boolean, add_webhook: boolean): Promise<Project> {
+    const db = getDb();
     console.log('creating project:', project);
     const lifecycleModel = new LifecyclesModel();
     const membersModel = new MembersModel();
@@ -174,6 +175,7 @@ export class ProjectsModel {
   }
 
   async findAll(user?: any, stackId?: any): Promise<Project[]> {
+    const db = getDb();
     let projectResults;
 
     projectResults = await db
@@ -204,6 +206,7 @@ export class ProjectsModel {
   }
 
   async findOne(id): Promise<Project> {
+    const db = getDb();
     // Fetch a single project with joined languages, stacks, and runtimes
     const projectResults = await db
       .select({
@@ -354,6 +357,7 @@ export class ProjectsModel {
   }
 
   async findOneByExternalId(externalId): Promise<Project> {
+    const db = getDb();
     // Fetch a single project with joined languages, stacks, and runtimes
     const projectResults = await db
       .select({

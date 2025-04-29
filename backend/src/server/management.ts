@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { policies, projects, members, projectMembers, policyContributors, policyExecutions, badges, kpis } from "../db/schema";
-import db from "../db/client";
+import { getDb } from "../db/client";
 import { and, eq, sql } from "drizzle-orm";
 import { BadgesModel } from "../models/badges";
 
@@ -59,6 +59,7 @@ const router = Router();
 export default function management() {
   router.get("/dashboard", async (req, res) => {
     try {
+      const db = getDb();
       // Get active policies count
       const activePolicies = await db
         .select()

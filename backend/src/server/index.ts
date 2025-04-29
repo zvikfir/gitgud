@@ -1,5 +1,3 @@
-import { createClient } from '@libsql/client'; // Turso
-import { drizzle } from 'drizzle-orm/libsql';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -20,7 +18,7 @@ require('https').globalAgent.options.rejectUnauthorized = false;
 
 const SESSION_EXPIRY = 0;
 
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { users, userTypes, sessions } from '../db/schema'; // Changed require to import
 import { eq, lt } from "drizzle-orm";
 
@@ -44,6 +42,7 @@ import management from './management';
 const packageJson = require("../../package.json"); // Import package.json
 
 async function cleanupExpiredSessions() {
+  const db = getDb();
   const now = new Date();
   await db.delete(sessions).where(lt(sessions.expiresAt, now));
 }
@@ -114,6 +113,7 @@ async function createApp() {
     // ... existing callback handler ...
     async (req, res) => {
       try {
+        const db = getDb();
         const sessionId = crypto.randomBytes(16).toString("hex");
         const userProfile = req.user;
         let isAdmin = false;
@@ -132,8 +132,8 @@ async function createApp() {
           const newUser = await db.select().from(users).where(eq(users.email, userProfile.emails[0].value)).limit(1);
           userId = newUser[0].id;
         } else {
-          isAdmin = existingUser[0].is_admin || false;
-          userTypeId = typeof existingUser[0].user_type_id === 'undefined' ? 1 : existingUser[0].user_type_id;
+          isAdmin = existingUser[0].isAdmin || false;
+          userTypeId = typeof existingUser[0].userTypeId === 'undefined' ? 1 : existingUser[0].userTypeId;
           userId = existingUser[0].id;
         }
         req.user.isAdmin = isAdmin;
@@ -161,7 +161,7 @@ async function createApp() {
     }
   );
   app.get("/gitlab/auth/logout", async (req, res) => {
-    // ... existing logout handler ...
+    const db = getDb();
     const sessionId = req.cookies.session_id;
     if (sessionId) {
       await db.delete(sessions).where(eq(sessions.id, sessionId));
@@ -197,7 +197,7 @@ async function createApp() {
 
   // --- Session/Auth Middleware for Protected Routes --- 
   app.use(async (req, res, next) => {
-    // ... existing session check middleware ...
+    const db = getDb();
     const sessionId = req.cookies.session_id;
     if (sessionId) {
       try {

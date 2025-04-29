@@ -1,6 +1,5 @@
-
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { projectContributors, contributors } from '../db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -12,6 +11,7 @@ export class ProjectContributorsModel {
   }
 
   async create(project_id, contributor_id): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(projectContributors)
@@ -37,6 +37,7 @@ export class ProjectContributorsModel {
   }
 
   async createByContributorEmail(project_id, contributor_email): Promise<any> {
+    const db = getDb();
     const contributor = await db
       .select()
       .from(contributors)

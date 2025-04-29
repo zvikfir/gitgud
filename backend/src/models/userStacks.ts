@@ -1,4 +1,4 @@
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { userStacks, users, projects, projectContributors, stacks, projectStacks, contributors } from '../db/schema';  // Import the languages table model
 import { unionAll, } from 'drizzle-orm/pg-core'
 import { eq, desc, and, sql } from 'drizzle-orm';
@@ -8,6 +8,7 @@ export class UserStacksModel {
   }
 
   async create(user_id: number, stack_id: number, state: number): Promise<any> {
+    const db = getDb();
     //check if we already have a record for this user_id/stack_id
     const existing = await db
       .select()
@@ -38,6 +39,7 @@ export class UserStacksModel {
   }
 
   async findAll(): Promise<any> {
+    const db = getDb();
     let userStacksResult = await db
       .select()
       .from(userStacks)
@@ -46,6 +48,7 @@ export class UserStacksModel {
   }
 
   async findAllByUserId(user_id: number): Promise<any> {
+    const db = getDb();
     let userStacksResult = await unionAll(
       db.select({
         stack_id: stacks.id,
@@ -100,4 +103,4 @@ export class UserStacksModel {
 
     return userStacksResult;
   }
-} 
+}

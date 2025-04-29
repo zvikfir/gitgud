@@ -1,4 +1,4 @@
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { policyExecutions, policies, projects } from '../db/schema';  // Import the languages table model
 import { eq, and, desc } from 'drizzle-orm';
 import { ProjectsModel } from './projects';
@@ -10,6 +10,7 @@ export class PolicyExecutionsModel {
   }
 
   async create(policy_id: number, project_id: number, status: number): Promise<any> {
+    const db = getDb();
     const [newObj] = await db
       .insert(policyExecutions)
       .values({
@@ -24,6 +25,7 @@ export class PolicyExecutionsModel {
   }
 
   async update(id: number, result: number, status: number, message: string ): Promise<any> {
+    const db = getDb();
     const [updatedObj] = await db
       .update(policyExecutions)
       .set({
@@ -37,6 +39,7 @@ export class PolicyExecutionsModel {
   }
 
   async findAll(limit = 10): Promise<any> {
+    const db = getDb();
     let policyExecutionResult = await db
       .select({ id: policyExecutions.id })
       .from(policyExecutions)
@@ -52,6 +55,7 @@ export class PolicyExecutionsModel {
   }
 
   async findOne(id): Promise<any> {
+    const db = getDb();
     let projectsModel = new ProjectsModel();
     let policiesModel = new PoliciesModel();
 
@@ -71,6 +75,7 @@ export class PolicyExecutionsModel {
   }
 
   async findLastExecutionByPolicyAndProject(policy_id: number, project_id: number): Promise<any> {
+    const db = getDb();
     let policyExecutionResult = await db
       .select()
       .from(policyExecutions)
@@ -86,6 +91,7 @@ export class PolicyExecutionsModel {
   }
 
   async findLastExecutionByPolicy(policy_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select({
         projectName: projects.name,

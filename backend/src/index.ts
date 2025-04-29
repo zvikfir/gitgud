@@ -4,7 +4,6 @@ const webServer = require("./server");
 const start_event_service = require("./events/start_event_service");
 
 import { Context } from './types/context';
-import { PoliciesModel } from './models/policies';
 import { setupApplication } from './app-setup'; // Import the consolidated setup function
 
 global.context = {
