@@ -2,11 +2,14 @@ const config = require("config");
 const kafka = require("kafka-node");
 const { KafkaClient, ConsumerGroup } = kafka;
 
-// Use dynamic imports for models
-let ProjectsModel, PolicyExecutionsModel, PolicyExecutionLogsModel, PolicyContributorsModel, ContributorsModel;
 
 const gitlab = require("../integrations/gitlab/client");
 const k8sClientFactory = require("../integrations/k8s/client_factory");
+import { PolicyExecutionsModel } from "../models/policyExecutions";
+import { ProjectsModel } from "../models/projects";
+import { PolicyExecutionLogsModel } from "../models/policyExecutionLogs";
+import { ContributorsModel } from "../models/contributors";
+import { PolicyContributorsModel } from "../models/policyContributors";
 
 const consumerOptions = {
   kafkaHost: config.get("kafka.broker"),
@@ -29,15 +32,6 @@ console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get(
 const consumerGroup = new ConsumerGroup(consumerOptions, ["webhook"]);
 
 module.exports = async () => {
-  // Dynamically import models when the function is called
-  if (!ProjectsModel) {
-    ({ ProjectsModel } = await import("../models/projects.js"));
-    ({ PolicyExecutionsModel } = await import("../models/policyExecutions.js"));
-    ({ PolicyExecutionLogsModel } = await import("../models/policyExecutionLogs.js"));
-    ({ PolicyContributorsModel } = await import("../models/policyContributors.js"));
-    ({ ContributorsModel } = await import("../models/contributors.js"));
-  }
-
   const producer = new kafka.Producer(new KafkaClient({ kafkaHost: config.get("kafka.broker") }));
   producer.on("ready", () => {
     console.log("Kafka Summaries Producer is connected and ready.");

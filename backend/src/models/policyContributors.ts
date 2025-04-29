@@ -1,5 +1,5 @@
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
+import { getDb } from '../db/client';
 import { policyContributors, members } from '../db/schema';  // Import the languages table model
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -11,6 +11,7 @@ export class PolicyContributorsModel {
   }
 
   async create(policy_id: number, contributor_id: number, result: number): Promise<any> {
+    const db = getDb();
     console.log('create policyContributors', policy_id, contributor_id, result);
     const existing = await db
       .select()
@@ -32,6 +33,7 @@ export class PolicyContributorsModel {
             eq(policyContributors.contributorId, contributor_id)
           ))
         .returning();
+      return newObj;
     }
 
     const [newObj] = await db
@@ -46,6 +48,7 @@ export class PolicyContributorsModel {
   }
 
   async createByContributorExternalId(policy_id: number, contributor_external_id: number, result: number): Promise<any> {
+    const db = getDb();
     const contibutor = await db
       .select()
       .from(members)
@@ -59,6 +62,7 @@ export class PolicyContributorsModel {
   }
 
   async createByContributorName(policy_id: number, contributor_name: string, result): Promise<any> {
+    const db = getDb();
     const contibutor = await db
       .select(
         { id: members.id },
