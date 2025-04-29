@@ -1,5 +1,5 @@
-import { PostgreSqlContainer } from '@testcontainers/postgresql';
-import { KafkaContainer } from '@testcontainers/kafka';
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
+import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
 import { vi } from 'vitest'; // Removed beforeAll, afterAll, afterEach imports
 import supertest from 'supertest';
 import { execSync } from 'child_process';
@@ -8,8 +8,8 @@ import { setupApplication } from '../src/app-setup';
 
 vi.setConfig({hookTimeout: 90000});
 
-let pgContainer: any;
-let kafkaContainer: any;
+let pgContainer: StartedPostgreSqlContainer;
+let kafkaContainer: StartedKafkaContainer;
 let app: any;
 let request: supertest.SuperTest<supertest.Test>;
 
@@ -28,7 +28,7 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
   console.log('[test-setup] Kafka container started.');
 
   const pgConnectionUri = pgContainer.getConnectionUri();
-  const kafkaBroker = kafkaContainer.getBootstrapServers();
+  const kafkaBroker = `${kafkaContainer.getHost()}:${kafkaContainer.getFirstMappedPort()}`;
 
   process.env.DATABASE_URL = pgConnectionUri;
   process.env.NODE_ENV = 'test';
