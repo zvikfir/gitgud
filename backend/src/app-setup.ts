@@ -1,7 +1,7 @@
 import config from 'config';
-import start_event_service from './events/start_event_service';
 import { Context } from './types/context';
 import { createApp } from './server'; // Import createApp
+import { startEventService } from './events/start_event_service';
 // import { PoliciesModel } from './models/policies'; // Uncomment if/when policy loading is needed
 
 /**
@@ -34,7 +34,7 @@ export async function setupApplication() {
   // 3. Start Event Service
   console.log('[app-setup] Starting event service...');
   try {
-    await start_event_service();
+    await startEventService();
     console.log('[app-setup] Event service started.');
   } catch (ex) {
     console.error('[app-setup] Failed to start event service:', ex);

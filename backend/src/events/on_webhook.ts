@@ -1,22 +1,21 @@
-const config = require("config");
-const kafka = require("kafka-node");
-const { KafkaClient, ConsumerGroup } = kafka;
-
-
-const gitlab = require("../integrations/gitlab/client");
-const k8sClientFactory = require("../integrations/k8s/client_factory");
+import config from "config";
+import kafka from "kafka-node";
+import gitlab from "../integrations/gitlab/client";
+import k8sClientFactory from "../integrations/k8s/client_factory";
 import { PolicyExecutionsModel } from "../models/policyExecutions";
 import { ProjectsModel } from "../models/projects";
 import { PolicyExecutionLogsModel } from "../models/policyExecutionLogs";
 import { ContributorsModel } from "../models/contributors";
 import { PolicyContributorsModel } from "../models/policyContributors";
 
-const consumerOptions = {
+const { KafkaClient, ConsumerGroup } = kafka;
+
+const consumerOptions: any = {
   kafkaHost: config.get("kafka.broker"),
   groupId: "gitgud-webhook-consumer",
   sessionTimeout: 15000,
   protocol: ["roundrobin"],
-  fromOffset: "latest", // equivalent of auto.offset.reset: earliest
+  fromOffset: "latest",
 };
 
 if (config.has("kafka.username") && config.has("kafka.password")) {
@@ -31,23 +30,23 @@ console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get(
 
 const consumerGroup = new ConsumerGroup(consumerOptions, ["webhook"]);
 
-module.exports = async () => {
+async function executePolicy(scriptJs: string, _context: any, project: any, event: any) {
+  const handleFunction = new Function(`return ${scriptJs}`)();
+  return await handleFunction(_context, project, event);
+}
+
+const onWebhook = async () => {
   const producer = new kafka.Producer(new KafkaClient({ kafkaHost: config.get("kafka.broker") }));
   producer.on("ready", () => {
     console.log("Kafka Summaries Producer is connected and ready.");
   });
 
-  producer.on("error", (err) => {
+  producer.on("error", (err: any) => {
     console.error("Kafka Producer error: " + err);
     process.abort();
   });
 
-  async function executePolicy(scriptJs, _context, project, event) {
-    const handleFunction = new Function(`return ${scriptJs}`)();
-    return await handleFunction(_context, project, event);
-  }
-
-  consumerGroup.on("message", async (message) => {
+  consumerGroup.on("message", async (message: any) => {
     let policyExecutionsModel = new PolicyExecutionsModel();
     let projectsModel = new ProjectsModel();
     let policyExecutionLogsModel = new PolicyExecutionLogsModel();
@@ -73,10 +72,10 @@ module.exports = async () => {
 
     try {
       let project = await projectsModel.findOneByExternalId(project_id);
-      const executed = [];
-      let logs = [];
+      const executed: any[] = [];
+      let logs: any[] = [];
 
-      let _context = Object.assign({}, global.context);
+      let _context = Object.assign({}, (global as any).context);
       _context.gitlab = gitlab;
       try {
         _context.kc = await k8sClientFactory(project.id);
@@ -86,8 +85,6 @@ module.exports = async () => {
 
       for (let policy of Object.values(project.policies)) {
         if (policy.enabled && policy.qualified.result) {
-          //console.log(`Policy ${policy.id} is enabled and qualified`);
-          //prevent dups
           if (executed.includes(policy.id)) {
             continue;
           }
@@ -97,13 +94,13 @@ module.exports = async () => {
             await policyExecutionsModel.create(policy.id, project.id, 0)
           ).id;
           let logger = {
-            info: async (msg) => {
+            info: async (msg: string) => {
               await policyExecutionLogsModel.create(executionId, msg, "info");
             },
-            warn: async (msg) => {
+            warn: async (msg: string) => {
               await policyExecutionLogsModel.create(executionId, msg, "warn");
             },
-            error: async (msg) => {
+            error: async (msg: string) => {
               await policyExecutionLogsModel.create(executionId, msg, "error");
             },
           };
@@ -127,7 +124,7 @@ module.exports = async () => {
             );
 
             //record the policy contributors
-            let contributors = [];
+            let contributors: any[] = [];
             if (event.user && typeof event.user === "object") {
               console.log("event.user", event.user);
               contributors.push(event.user.id);
@@ -162,7 +159,7 @@ module.exports = async () => {
               contributors.push(event.reviewer.id);
             }
             if (event.reviewers) {
-              console.log("event.reviewers", event.reviewers);
+              console.log("event.reviewers");
               for (let reviewer of event.reviewers) {
                 contributors.push(reviewer.id);
               }
@@ -199,7 +196,7 @@ module.exports = async () => {
             }
 
             policyExecutionsModel.update(executionId, result, 1);
-          } catch (ex) {
+          } catch (ex: any) {
             logger.error(
               `Policy ${policy.name} failed with error: ${ex.message}`
             );
@@ -219,7 +216,7 @@ module.exports = async () => {
           ).id;
         }
       }
-    } catch (ex) {
+    } catch (ex: any) {
       console.error(ex);
       console.log(
         `Failed to process Event ${event_type} for project ${project_id} with id ${event.id}: ${ex.message}`
@@ -232,9 +229,11 @@ module.exports = async () => {
     );
   });
 
-  consumerGroup.on("error", (err) => {
+  consumerGroup.on("error", (err: any) => {
     console.error("Kafka ConsumerGroup error: " + err);
     // Decide if the error is fatal
     // process.abort();
   });
 };
+
+export { onWebhook };
