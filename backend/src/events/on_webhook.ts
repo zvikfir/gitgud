@@ -7,6 +7,7 @@ import { PolicyExecutionLogsModel } from "../models/policyExecutionLogs";
 import { ContributorsModel } from "../models/contributors";
 import { PolicyContributorsModel } from "../models/policyContributors";
 import { getKafkaProducer, getConsumerGroup } from "../infra/kafka/kafka";
+import { getAppConfig } from "../infra/config/configService";
 
 async function executePolicy(scriptJs: string, _context: any, project: any, event: any) {
   const handleFunction = new Function(`return ${scriptJs}`)();
@@ -14,7 +15,8 @@ async function executePolicy(scriptJs: string, _context: any, project: any, even
 }
 
 const onWebhook = async () => {
-  console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.broker")}`);
+  const appConfig = getAppConfig();
+  console.log(`Starting on_webhook consumer service on Kafka Broker: ${appConfig.kafka.broker}`);
   const producer = getKafkaProducer();
   const consumerGroup = getConsumerGroup(["webhook"]);
   producer.on("ready", () => {

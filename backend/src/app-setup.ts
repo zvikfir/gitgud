@@ -2,6 +2,7 @@ import config from 'config';
 import { Context } from './types/context';
 import { createApp } from './server'; // Import createApp
 import { startEventService } from './events/start_event_service';
+import { getAppConfig } from "./infra/config/configService";
 // import { PoliciesModel } from './models/policies'; // Uncomment if/when policy loading is needed
 
 /**
@@ -19,6 +20,8 @@ export async function setupApplication() {
     config,
   } as Context;
   console.log('[app-setup] Global context set.');
+
+  const appConfig = getAppConfig();
 
   // 2. Load Policies (Optional)
   // console.log('[app-setup] Initializing policies...');

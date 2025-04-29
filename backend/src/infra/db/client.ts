@@ -1,12 +1,12 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import config from 'config';
+import { getAppConfig } from '../config/configService';
 
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 
 export function getDb() {
   if (!dbInstance) {
-    const connectionString: string = config.get('postgres.url');
+    const connectionString: string = getAppConfig().postgres.url;
     const queryClient = postgres(connectionString);
     dbInstance = drizzle(queryClient, { logger: false });
   }

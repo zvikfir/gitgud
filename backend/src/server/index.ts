@@ -4,6 +4,7 @@ import passport from 'passport';
 import { Strategy as GitLabStrategy } from 'passport-gitlab2';
 import config from 'config';
 import crypto from 'crypto';
+import { getAppConfig } from "../infra/config/configService";
 
 const bodyParser = require("body-parser");
 const cors = require('cors');
@@ -55,6 +56,7 @@ async function setupSessionCleanup() {
 // New function to create and configure the Express app
 async function createApp() {
   const app = express();
+  const appConfig = getAppConfig();
 
   // Assign app to global context if needed, though maybe reconsider this pattern
   if (global.context) {
@@ -71,12 +73,11 @@ async function createApp() {
   // --- Passport Setup --- 
   passport.use(
     new GitLabStrategy(
-      // ... existing passport config ...
       {
-        clientID: config.get("gitlab.client_id"),
-        clientSecret: config.get("gitlab.client_secret"),
-        callbackURL: `${config.get("gitgud.host").indexOf('https://') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/gitlab/auth/callback`,
-        baseURL: config.get("gitlab.uri"),
+        clientID: appConfig.gitlab.client_id || '',
+        clientSecret: appConfig.gitlab.client_secret || '',
+        callbackURL: `${(appConfig.gitgud?.host || '').indexOf('https://') > -1 ? appConfig.gitgud?.host : `https://${appConfig.gitgud?.host}`}/gitlab/auth/callback`,
+        baseURL: appConfig.gitlab.uri,
       },
       function (accessToken, refreshToken, profile, done) {
         return done(null, profile);

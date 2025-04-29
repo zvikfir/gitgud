@@ -1,12 +1,14 @@
-const axios = require("axios");
-const config = require("config");
+import { getAppConfig } from "../../infra/config/configService";
+import axios from "axios";
+
+const appConfig = getAppConfig();
 
 class GitLabClient {
   constructor() {
     this.client = axios.create({
-      baseURL: config.get("gitlab.uri"),
+      baseURL: appConfig.gitlab.uri,
       headers: {
-        "Private-Token": config.get("gitlab.access_token"),
+        "Private-Token": appConfig.gitlab.access_token,
       },
     });
 
@@ -37,4 +39,4 @@ class GitLabClient {
 }
 
 const client = new GitLabClient();
-module.exports = client.client;
+export default client.client;

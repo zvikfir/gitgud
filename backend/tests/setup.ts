@@ -32,7 +32,6 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
 
   process.env.DATABASE_URL = pgConnectionUri;
   process.env.NODE_ENV = 'test';
-  process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
   console.log(`[test-setup] Overriding config 'postgres.url' with: ${pgConnectionUri}`);
   config.postgres = {
