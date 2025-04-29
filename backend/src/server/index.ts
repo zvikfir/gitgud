@@ -1,26 +1,15 @@
 import express from 'express';
-import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GitLabStrategy } from 'passport-gitlab2';
-import config from 'config';
-import crypto from 'crypto';
-import { getAppConfig } from "../infra/config/configService";
-
-const bodyParser = require("body-parser");
-const cors = require('cors');
-
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
-
-const cookieParser = require("cookie-parser");
-
+import bodyParser from "body-parser";
+import cors from 'cors';
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import setupAuth from './auth/passport';
+import https from 'https';
 //this is to allow self-signed certificates
-require('https').globalAgent.options.rejectUnauthorized = false;
-
-const SESSION_EXPIRY = 0;
+https.globalAgent.options.rejectUnauthorized = false;
 
 import { getDb } from '../infra/db/client';
-import { users, userTypes, sessions } from '../infra/db/schema'; // Changed require to import
+import { sessions } from '../infra/db/schema'; // Changed require to import
 import { eq, lt } from "drizzle-orm";
 
 import projects from "./projects";
@@ -56,7 +45,6 @@ async function setupSessionCleanup() {
 // New function to create and configure the Express app
 async function createApp() {
   const app = express();
-  const appConfig = getAppConfig();
 
   // Assign app to global context if needed, though maybe reconsider this pattern
   if (global.context) {
@@ -70,106 +58,13 @@ async function createApp() {
     origin: 'http://localhost:3000' // Consider making this configurable
   }));
 
-  // --- Passport Setup --- 
-  passport.use(
-    new GitLabStrategy(
-      {
-        clientID: appConfig.gitlab.client_id || '',
-        clientSecret: appConfig.gitlab.client_secret || '',
-        callbackURL: `${(appConfig.gitgud?.host || '').indexOf('https://') > -1 ? appConfig.gitgud?.host : `https://${appConfig.gitgud?.host}`}/gitlab/auth/callback`,
-        baseURL: appConfig.gitlab.uri,
-      },
-      function (accessToken, refreshToken, profile, done) {
-        return done(null, profile);
-      }
-    )
-  );
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
-
-  // --- Core Middleware --- 
-  app.use(cookieParser());
-  app.use(
-    session({ secret: "your-secret", resave: false, saveUninitialized: true }) // Consider making secret configurable
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // --- Passport/Auth Setup ---
+  setupAuth(app);
 
   // --- Public / Unauthenticated Routes --- 
   app.use("/gitlab/webhook", webhook());
-  app.get("/gitlab/auth", (req, res, next) => {
-    req.session.returnTo = req.query.returnTo || '/';
-    passport.authenticate("gitlab", { scope: ["read_user"] })(req, res, next);
-  });
   app.get("/health", (req, res) => {
     res.status(200).json({ status: "ok" });
-  });
-  app.get(
-    "/gitlab/auth/callback",
-    passport.authenticate("gitlab", { failureRedirect: "/failed-login" }),
-    // ... existing callback handler ...
-    async (req, res) => {
-      try {
-        const db = getDb();
-        const sessionId = crypto.randomBytes(16).toString("hex");
-        const userProfile = req.user;
-        let isAdmin = false;
-        let userTypeId = 1;
-        let userId;
-        const existingUser = await db.select().from(users).where(eq(users.email, userProfile.emails[0].value)).limit(1);
-        if (existingUser.length === 0) {
-          await db.insert(users).values({
-            name: userProfile.displayName,
-            email: userProfile.emails[0].value,
-            avatarUrl: userProfile.avatarUrl,
-            isAdmin,
-            userTypeId,
-            externalId: userProfile.id
-          });
-          const newUser = await db.select().from(users).where(eq(users.email, userProfile.emails[0].value)).limit(1);
-          userId = newUser[0].id;
-        } else {
-          isAdmin = existingUser[0].isAdmin || false;
-          userTypeId = typeof existingUser[0].userTypeId === 'undefined' ? 1 : existingUser[0].userTypeId;
-          userId = existingUser[0].id;
-        }
-        req.user.isAdmin = isAdmin;
-        req.user.userTypeId = userTypeId;
-        req.user.userType = userTypeId == 1 ? 'developer' : 'manager';
-        req.user.externalId = userProfile.id;
-        req.user.id = userId;
-        const expiresAt = new Date();
-        expiresAt.setHours(expiresAt.getHours() + 24);
-        await db.insert(sessions).values({
-          id: sessionId,
-          userId: userId,
-          data: req.user,
-          expiresAt
-        });
-        res.cookie("session_id", sessionId, { httpOnly: true, secure: true }); // Consider secure: process.env.NODE_ENV === 'production'
-        const returnTo = req.session.returnTo || '/';
-        delete req.session.returnTo;
-        res.redirect(returnTo);
-      } catch (error) {
-        console.error("OAuth callback error:", error.message);
-        console.error(error.stack);
-        res.redirect("/failed-login");
-      }
-    }
-  );
-  app.get("/gitlab/auth/logout", async (req, res) => {
-    const db = getDb();
-    const sessionId = req.cookies.session_id;
-    if (sessionId) {
-      await db.delete(sessions).where(eq(sessions.id, sessionId));
-      res.clearCookie("session_id");
-    }
-    req.logout(() => { });
-    res.redirect("/logged-out");
   });
 
   // --- Swagger --- 
@@ -208,7 +103,7 @@ async function createApp() {
           .from(sessions)
           .where(eq(sessions.id, sessionId));
         if (session && new Date(session.expiresAt) > now) {
-          req.user = session.data;
+          req.user = session.data as any;
           const newExpiresAt = new Date();
           newExpiresAt.setHours(newExpiresAt.getHours() + 24);
           await db

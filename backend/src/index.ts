@@ -17,7 +17,7 @@ global.context = {
     const app = await setupApplication();
 
     // Start the Web Server
-    const port = process.env.PORT || 3001;
+    const port = parseInt(process.env.PORT || '3001', 10); // Ensure port is a number
     app.listen(port, '0.0.0.0', () => {
       console.log(`[web-server] Server is running on http://0.0.0.0:${port}`);
       console.log(`[web-server] Swagger UI available at http://0.0.0.0:${port}/api-docs`);

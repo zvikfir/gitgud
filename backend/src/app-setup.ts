@@ -23,17 +23,6 @@ export async function setupApplication() {
 
   const appConfig = getAppConfig();
 
-  // 2. Load Policies (Optional)
-  // console.log('[app-setup] Initializing policies...');
-  // try {
-  //   let policiesModel = new PoliciesModel();
-  //   await policiesModel.init_policies();
-  //   console.log('[app-setup] Policies initialized.');
-  // } catch (ex) {
-  //   console.error('[app-setup] Failed to initialize policies:', ex);
-  //   throw ex; // Re-throw to prevent startup if policies are critical
-  // }
-
   // 3. Start Event Service
   console.log('[app-setup] Starting event service...');
   try {

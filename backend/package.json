@@ -34,6 +34,7 @@
     "openai": "^4.76.3",
     "passport": "^0.7.0",
     "passport-gitlab2": "^5.0.0",
+    "passport-mock-strategy": "^2.0.0",
     "postgres": "^3.4.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
