@@ -2,9 +2,10 @@ import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers
 import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
 import { vi } from 'vitest';
 import supertest from 'supertest';
-import { execSync } from 'child_process';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { setupApplication } from '../src/app-setup';
 import { setConfig } from '../src/infra/config/configService';
+import { getDb } from '../src/infra/db/client';
 
 vi.setConfig({ hookTimeout: 90000 });
 
@@ -43,7 +44,7 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
   console.log('[test-setup] Application setup complete.');
 
   console.log('[test-setup] Running migrations...');
-  execSync('npm run migrate', { cwd: 'backend', stdio: 'inherit', env: { ...process.env, GITGUD_PG_URL: pgConnectionUri } });
+  await migrate(getDb(), { migrationsFolder: 'migrations' });
   console.log('[test-setup] Migrations complete.');
 
   if (seedFile) {

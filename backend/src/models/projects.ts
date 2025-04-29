@@ -1,17 +1,13 @@
 import { eq } from 'drizzle-orm';
 import { getDb } from '../infra/db/client';
-import { projects, languages, owners, stacks, runtimes, projectOwners, projectLanguages, projectStacks, projectRuntimes, members, projectMembers, projectDisabledPolicies, lifecycles, contributors, projectContributors } from '../infra/db/schema';
+import { projects, languages, owners, stacks, runtimes, projectOwners, projectLanguages, projectStacks, projectRuntimes, lifecycles, contributors, projectContributors } from '../infra/db/schema';
 import { OwnersModel } from './owners'
 import { LanguagesModel } from './languages'
 import { LifecyclesModel } from './lifecycles';
 import { StacksModel } from './stacks';
 import { RuntimeModel } from './runtimes';
-import { UserStacksModel } from './userStacks';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
-
 import { PoliciesModel } from './policies';
-import { ProjectDisabledPoliciesModel } from './projectDisabledPolicies';
-
 import { Project } from '../types/project'
 import { PolicyExecutionsModel } from './policyExecutions';
 import { PolicyExecutionLogsModel } from './policyExecutionLogs';
@@ -207,6 +203,7 @@ export class ProjectsModel {
 
   async findOne(id): Promise<Project> {
     const db = getDb();
+    
     // Fetch a single project with joined languages, stacks, and runtimes
     const projectResults = await db
       .select({
