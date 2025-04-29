@@ -61,7 +61,7 @@ const onWebhook = async () => {
       let _context = Object.assign({}, (global as any).context);
       _context.gitlab = gitlab;
       try {
-        _context.kc = await k8sClientFactory(project.id);
+        _context.kc = await k8sClientFactory(String(project.id));
       } catch (ex) {
         //ignore for now
       }

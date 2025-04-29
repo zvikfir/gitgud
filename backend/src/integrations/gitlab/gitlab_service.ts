@@ -1,9 +1,9 @@
-const gitlab = require('./client');
-const _ = require('lodash');
-const fs = require("fs");
-const unzipper = require("unzipper");
-const path = require("path");
-const config = require("config");
+import gitlab from './client';
+import _ from 'lodash';
+import fs from "fs";
+import unzipper from "unzipper";
+import path from "path";
+import config from "config";
 import { getAppConfig } from "../../infra/config/configService";
 
 export class GitLabService {

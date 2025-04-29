@@ -1,10 +1,10 @@
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
-import { vi } from 'vitest'; // Removed beforeAll, afterAll, afterEach imports
+import { vi } from 'vitest';
 import supertest from 'supertest';
 import { execSync } from 'child_process';
-import config from 'config';
 import { setupApplication } from '../src/app-setup';
+import { setConfig } from '../src/infra/config/configService';
 
 vi.setConfig({ hookTimeout: 90000 });
 
@@ -13,7 +13,6 @@ let kafkaContainer: StartedKafkaContainer;
 let app: any;
 let request: supertest.SuperTest<supertest.Test>;
 
-// Renamed function to reflect it performs the setup now
 export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-data.json' } = {}) {
   console.log('[test-setup] Starting PostgreSQL container...');
   pgContainer = await new PostgreSqlContainer()
@@ -34,13 +33,9 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
   process.env.NODE_ENV = 'test';
 
   console.log(`[test-setup] Overriding config 'postgres.url' with: ${pgConnectionUri}`);
-  config.postgres = {
-    url: pgConnectionUri
-  };
+  setConfig("postgres", { url: pgConnectionUri });
   console.log(`[test-setup] Overriding config 'kafka.broker' with: ${kafkaBroker}`);
-  config.kafka = {
-    broker: kafkaBroker
-  };
+  setConfig("kafka", { broker: kafkaBroker });
 
   console.log('[test-setup] Setting up application...');
   app = await setupApplication();
@@ -60,7 +55,6 @@ export async function initializeTestEnvironment({ seedFile = 'backend/data/seed-
   return request; // Return the initialized request object
 }
 
-// New function for cleanup
 export async function cleanupTestEnvironment() {
   // --- Stop Event Service (Placeholder) ---
   // if (typeof stop_event_service === 'function') {
