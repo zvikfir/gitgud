@@ -74,7 +74,8 @@ const onWebhook = async () => {
       let project = await projectsModel.findOneByExternalId(project_id);
       const executed: any[] = [];
       let logs: any[] = [];
-
+      const ignored: any[] = [];
+      const originalProjectId = project.id;
       let _context = Object.assign({}, (global as any).context);
       _context.gitlab = gitlab;
       try {
@@ -109,7 +110,7 @@ const onWebhook = async () => {
           logs = [];
           logger.info(`Executing policy ${policy.name}`);
 
-          project._id = project.id;
+          // Store and swap project.id for policy execution
           project.id = project.externalId;
           try {
             const result = await executePolicy(
@@ -195,7 +196,7 @@ const onWebhook = async () => {
               }
             }
 
-            policyExecutionsModel.update(executionId, result, 1);
+            policyExecutionsModel.update(executionId, result, 1, "");
           } catch (ex: any) {
             logger.error(
               `Policy ${policy.name} failed with error: ${ex.message}`
@@ -203,7 +204,8 @@ const onWebhook = async () => {
 
             policyExecutionsModel.update(executionId, 0, 2, ex.message);
           }
-          project.id = project._id;
+          // Restore project.id
+          project.id = originalProjectId;
         } else {
           ignored.push(policy.id);
 
