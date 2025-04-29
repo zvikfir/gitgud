@@ -1,5 +1,4 @@
 import config from "config";
-import kafka from "kafka-node";
 import gitlab from "../integrations/gitlab/client";
 import k8sClientFactory from "../integrations/k8s/client_factory";
 import { PolicyExecutionsModel } from "../models/policyExecutions";
@@ -7,28 +6,7 @@ import { ProjectsModel } from "../models/projects";
 import { PolicyExecutionLogsModel } from "../models/policyExecutionLogs";
 import { ContributorsModel } from "../models/contributors";
 import { PolicyContributorsModel } from "../models/policyContributors";
-
-const { KafkaClient, ConsumerGroup } = kafka;
-
-const consumerOptions: any = {
-  kafkaHost: config.get("kafka.broker"),
-  groupId: "gitgud-webhook-consumer",
-  sessionTimeout: 15000,
-  protocol: ["roundrobin"],
-  fromOffset: "latest",
-};
-
-if (config.has("kafka.username") && config.has("kafka.password")) {
-  consumerOptions.sasl = {
-    mechanism: "plain",
-    username: config.get("kafka.username"),
-    password: config.get("kafka.password"),
-  };
-}
-
-console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.broker")}`);
-
-const consumerGroup = new ConsumerGroup(consumerOptions, ["webhook"]);
+import { getKafkaProducer, getConsumerGroup } from "../infra/kafka/kafka";
 
 async function executePolicy(scriptJs: string, _context: any, project: any, event: any) {
   const handleFunction = new Function(`return ${scriptJs}`)();
@@ -36,7 +14,9 @@ async function executePolicy(scriptJs: string, _context: any, project: any, even
 }
 
 const onWebhook = async () => {
-  const producer = new kafka.Producer(new KafkaClient({ kafkaHost: config.get("kafka.broker") }));
+  console.log(`Starting on_webhook consumer service on Kafka Broker: ${config.get("kafka.broker")}`);
+  const producer = getKafkaProducer();
+  const consumerGroup = getConsumerGroup(["webhook"]);
   producer.on("ready", () => {
     console.log("Kafka Summaries Producer is connected and ready.");
   });
@@ -150,7 +130,7 @@ const onWebhook = async () => {
               contributors.push(event.assignee.id);
             }
             if (event.assignees) {
-              console.log("event.assignees", event.assignees);
+              console.log("event.assignees");
               for (let assignee of event.assignees) {
                 contributors.push(assignee.id);
               }
