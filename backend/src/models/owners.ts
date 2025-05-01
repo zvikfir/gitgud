@@ -1,6 +1,6 @@
-import { eq, and} from 'drizzle-orm';
-import db from '../db/client';
-import { owners, projectOwners } from '../db/schema';  // Import the languages table model
+import { eq, and } from 'drizzle-orm';
+import { getDb } from '../infra/db/client';
+import { owners, projectOwners } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class OwnersModel {
@@ -11,6 +11,7 @@ export class OwnersModel {
   }
 
   async create(name, description): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(owners)
@@ -30,34 +31,27 @@ export class OwnersModel {
 
 
   async findAll(): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: owners.id,
         name: owners.name,
         description: owners.description,
       })
-      .from(owners)
-      //.innerJoin(projectOwners, eq(projectOwners.stackId, owners.id))
-      //.innerJoin(projects, eq(projects.id, projectOwners.projectId))
-      //.innerJoin(projectContributors, eq(projectContributors.projectId, projects.id))
-      //.innerJoin(contributors, eq(contributors.id, projectContributors.contributorId));
+      .from(owners);
 
     return results;
   }
 
   async findAllByContributor(contributorExternalId: number): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: owners.id,
         name: owners.name,
         description: owners.description,
       })
-      .from(owners)
-      // .innerJoin(projectOwners, eq(projectOwners.stackId, owners.id))
-      // .innerJoin(projects, eq(projects.id, projectOwners.projectId))
-      // .innerJoin(projectContributors, eq(projectContributors.projectId, projects.id))
-      // .innerJoin(contributors, eq(contributors.id, projectContributors.contributorId))
-      // .where(eq(contributors.externalId, contributorExternalId));
+      .from(owners);
 
     return results;
   }
@@ -66,6 +60,7 @@ export class OwnersModel {
     if (!id) {
       return null;
     }
+    const db = getDb();
     const result = await db
       .select()
       .from(owners)
@@ -79,6 +74,7 @@ export class OwnersModel {
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
+      const db = getDb();
       const [updated] = await db
         .update(owners)
         .set({ name: data.name, description: data.description })
@@ -91,6 +87,7 @@ export class OwnersModel {
   }
 
   async remove(id: number): Promise<void> {
+    const db = getDb();
     // First delete related project_owners entries
     await db
       .delete(projectOwners)

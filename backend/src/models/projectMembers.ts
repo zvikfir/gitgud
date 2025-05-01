@@ -1,7 +1,6 @@
-
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
-import { projectMembers, members } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { projectMembers, members } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class ProjectMembersModel {
@@ -12,6 +11,7 @@ export class ProjectMembersModel {
   }
 
   async create(project_id, member_id): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(projectMembers)
@@ -37,6 +37,7 @@ export class ProjectMembersModel {
   }
 
   async createByMemberExternalId(project_id, member_external_id): Promise<any> {
+    const db = getDb();
     const member = await db
       .select()
       .from(members)

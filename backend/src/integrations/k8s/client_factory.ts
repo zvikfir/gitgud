@@ -1,7 +1,7 @@
-const k8s = require("@kubernetes/client-node");
-const gitlab = require("../gitlab/client");
+import k8s from "@kubernetes/client-node";
+import gitlab from "../gitlab/client";
 
-async function k8sClientFactory(projectId) {
+async function k8sClientFactory(projectId: string): Promise<k8s.KubeConfig | null> {
   console.log("Fetching k8s kubeconfig for project " + projectId);
 
   try {
@@ -30,4 +30,4 @@ async function k8sClientFactory(projectId) {
   }
 }
 
-module.exports = k8sClientFactory;
+export default k8sClientFactory;

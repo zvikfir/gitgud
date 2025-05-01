@@ -1,7 +1,6 @@
-
 import { eq, and } from 'drizzle-orm';
-import db from '../db/client';
-import { projectOwners, owners } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { projectOwners, owners } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class ProjectMembersModel {
@@ -12,6 +11,7 @@ export class ProjectMembersModel {
   }
 
   async create(project_id, member_id): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(projectOwners)
@@ -38,6 +38,7 @@ export class ProjectMembersModel {
 
 
   async findAll(): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: owners.id,
@@ -54,6 +55,7 @@ export class ProjectMembersModel {
   }
 
   async findAllByContributor(contributorExternalId: number): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: owners.id,
@@ -74,6 +76,7 @@ export class ProjectMembersModel {
     if (!id) {
       return null;
     }
+    const db = getDb();
     const result = await db
       .select()
       .from(owners)
@@ -87,6 +90,7 @@ export class ProjectMembersModel {
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
+      const db = getDb();
       const [updated] = await db
         .update(owners)
         .set({ name: data.name, description: data.description })
@@ -99,6 +103,7 @@ export class ProjectMembersModel {
   }
 
   async remove(id: number, projectId: number): Promise<void> {
+    const db = getDb();
     // First delete related project_owners entries
     await db
       .delete(projectOwners)

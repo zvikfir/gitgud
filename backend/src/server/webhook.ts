@@ -1,25 +1,26 @@
+import { getAppConfig } from "../infra/config/configService";
 const express = require("express");
-const config = require("config");
 
 const kafka = require("kafka-node");
+const appConfig = getAppConfig();
 const kafkaClientConfig: { kafkaHost: string, connectTimeout: number, requestTimeout: number, sasl?: { mechanism: string, username: string, password: string } } = {
-  kafkaHost: config.get("kafka.broker"),
+  kafkaHost: appConfig.kafka.broker,
   connectTimeout: 3000,
   requestTimeout: 3000,
 };
 
-if (config.has("kafka.username") && config.has("kafka.password")) {
+if (appConfig.kafka.username && appConfig.kafka.password) {
   kafkaClientConfig.sasl = {
     mechanism: 'plain',
-    username: config.get("kafka.username"),
-    password: config.get("kafka.password"),
+    username: appConfig.kafka.username,
+    password: appConfig.kafka.password,
   };
 }
 
-if (config.has("kafka.username") && config.has("kafka.password")) {
-  console.log(`Starting webhook producer on Kafka Broker: ${config.get("kafka.username")}:${config.get("kafka.broker")}`);
+if (appConfig.kafka.username && appConfig.kafka.password) {
+  console.log(`Starting webhook producer on Kafka Broker: ${appConfig.kafka.username}:${appConfig.kafka.broker}`);
 } else {
-  console.log(`Starting webhook producer service on Kafka Broker: ${config.get("kafka.broker")}`);
+  console.log(`Starting webhook producer service on Kafka Broker: ${appConfig.kafka.broker}`);
 }
 const kafkaClient = new kafka.KafkaClient(kafkaClientConfig);
 

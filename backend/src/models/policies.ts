@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 import { eq, desc } from 'drizzle-orm';
-import db from '../db/client';
-import { policies, badges, policyCompliance, kpis } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { policies, badges, policyCompliance, kpis } from '../infra/db/schema';
 import { BadgesModel } from './badges';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -68,6 +68,7 @@ export class PoliciesModel {
   }
 
   async createOrUpdate(policy, useUuid = false): Promise<any> {
+    const db = getDb();
     const policyData = {
       name: policy.title,
       description: policy.description,
@@ -160,6 +161,7 @@ export class PoliciesModel {
   }
 
   async findAll(): Promise<any> {
+    const db = getDb();
     let policiesResult = await db
       .select()
       .from(policies)
@@ -173,6 +175,7 @@ export class PoliciesModel {
   }
 
   async findOne(id: string): Promise<any> {
+    const db = getDb();
     const policy: any = await db.transaction(async (tx) => {
       const [policyData] = await tx
         .select()

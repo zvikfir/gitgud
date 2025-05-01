@@ -1,17 +1,20 @@
 import { eq, sql, asc } from 'drizzle-orm';
-import db from '../db/client';
-import { kpis, policyExecutions, policies } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { kpis, policyExecutions, policies } from '../infra/db/schema';
 
 export class KPIsModel {
   async findAll() {
+    const db = getDb();
     return await db.select().from(kpis).orderBy(asc(kpis.name));
   }
 
   async findOne(id: string) {
+    const db = getDb();
     return await db.select().from(kpis).where(eq(kpis.id, Number(id))).limit(1);
   }
 
   async findAllByProject(projectId: number) {
+    const db = getDb();
     // Get latest policy executions for the project grouped by policy
     const executions = await db
       .select({

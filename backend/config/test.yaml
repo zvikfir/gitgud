@@ -1,0 +1,9 @@
+postgres:
+  url: "placeholder-db-url:5432" # Placeholder with dummy port
+
+kafka:
+  broker: "placeholder-kafka:9092" # Placeholder with dummy port
+
+gitlab:
+  uri: "http://placeholder-gitlab.com"
+  access_token: "placeholder-token" # Corrected key name

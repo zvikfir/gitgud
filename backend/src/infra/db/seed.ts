@@ -1,5 +1,5 @@
 import { kpis, policies, badges, lifecycles, userTypes, runtimes } from './schema';
-import db from './client';
+import { getDb } from './client';
 import fs from 'fs';
 import path from 'path';
 
@@ -12,6 +12,8 @@ async function seed() {
     }
 
     const data = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
+
+    const db = getDb();
 
     // Insert data in correct order to maintain referential integrity
     console.log('Seeding KPIs...');

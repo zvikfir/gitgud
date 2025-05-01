@@ -1,6 +1,6 @@
 import { eq, sql, ilike } from 'drizzle-orm';
-import db from '../db/client';
-import { stacks, projectStacks, projects, projectMembers, members, projectContributors, contributors, users } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { stacks, projectStacks, projects, projectMembers, members, projectContributors, contributors, users } from '../infra/db/schema';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 import { UserStacksModel } from './userStacks';
 
@@ -12,6 +12,7 @@ export class StacksModel {
   }
 
   async create(name, description): Promise<any> {
+    const db = getDb();
     // Insert the stack
     console.log('Creating stack:', name);
     const existing = await db
@@ -32,6 +33,7 @@ export class StacksModel {
   }
 
   async findAll(searchQuery: string = '', page: number = 1, limit: number = 10): Promise<any[]> {
+    const db = getDb();
     if (searchQuery) {
       searchQuery = `%${searchQuery}%`;
     }
@@ -55,6 +57,7 @@ export class StacksModel {
   }
 
   async findAllByUserId(userId: number, searchQuery: string = '', page: number = 1, limit: number = 10): Promise<any[]> {
+    const db = getDb();
     //first let's get all via findAll()
     let results = await this.findAll(searchQuery, page, limit);
 
@@ -76,6 +79,7 @@ export class StacksModel {
   }
 
   async findOne(id: number): Promise<any> {
+    const db = getDb();
     if (!id) {
       return null;
     }
@@ -107,6 +111,7 @@ export class StacksModel {
   }
 
   async createOrUpdate(data: any): Promise<any> {
+    const db = getDb();
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
@@ -122,6 +127,7 @@ export class StacksModel {
   }
 
   async remove(id: number): Promise<void> {
+    const db = getDb();
     // First delete related project_stacks entries
     await db
       .delete(projectStacks)

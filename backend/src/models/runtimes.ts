@@ -1,6 +1,6 @@
 import { eq, and} from 'drizzle-orm';
-import db from '../db/client';
-import { runtimes, projectRuntimes } from '../db/schema'; 
+import { getDb } from '../infra/db/client';
+import { runtimes, projectRuntimes } from '../infra/db/schema'; 
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
 export class RuntimeModel {
@@ -11,6 +11,7 @@ export class RuntimeModel {
   }
 
   async create(name, description): Promise<any> {
+    const db = getDb();
     const existing = await db
       .select()
       .from(runtimes)
@@ -30,6 +31,7 @@ export class RuntimeModel {
 
   
   async findAll(): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: runtimes.id,
@@ -46,6 +48,7 @@ export class RuntimeModel {
   }
 
   async findAllByContributor(contributorExternalId: number): Promise<any[]> {
+    const db = getDb();
     const results = await db
       .selectDistinct({
         id: runtimes.id,
@@ -63,6 +66,7 @@ export class RuntimeModel {
   }
 
   async findOne(id: number): Promise<any> {
+    const db = getDb();
     if (!id) {
       return null;
     }
@@ -76,6 +80,7 @@ export class RuntimeModel {
   }
 
   async createOrUpdate(data: any): Promise<any> {
+    const db = getDb();
     const existingStack = await this.findOne(data.id);
 
     if (existingStack) {
@@ -91,6 +96,7 @@ export class RuntimeModel {
   }
 
   async remove(id: number): Promise<void> {
+    const db = getDb();
     // First delete related project_runtimes entries
     await db
       .delete(projectRuntimes)

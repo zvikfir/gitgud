@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 import { asyncHandler } from './middleware/errorHandler';
-import db from '../db/client';
+import { getDb } from '../infra/db/client';
 import { eq, desc, and } from 'drizzle-orm';
-import { users, policyContributors, policies, projects, policyExecutions } from '../db/schema';
+import { users, policyContributors, policies, projects, policyExecutions } from '../infra/db/schema';
 import { UserStacksModel } from '../models/userStacks';
 
 export default function apiRoutes() {
   router.get("/", asyncHandler(async (req, res) => {
     if (req.isAuthenticated()) {
+      const db = getDb();
       const userStacksModel = new UserStacksModel();
 
       // Add mock data to enhance the user object

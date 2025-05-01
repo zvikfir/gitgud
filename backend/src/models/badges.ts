@@ -1,6 +1,6 @@
 import { eq, sql, and, asc } from 'drizzle-orm';
-import db from '../db/client';
-import { badges, policies, policyExecutions } from '../db/schema';
+import { getDb } from '../infra/db/client';
+import { badges, policies, policyExecutions } from '../infra/db/schema';
 import { KPIsModel } from './kpis';
 import { GitLabService } from '../integrations/gitlab/gitlab_service';
 
@@ -12,22 +12,13 @@ export class BadgesModel {
   }
 
   async createOrUpdate(badge): Promise<any> {
+    const db = getDb();
     // Check if the badge already exists
     const existing = await db
       .select()
       .from(badges)
       .where(eq(badges.name, badge.name));
 
-    // const kpisModel = new KPIsModel();
-    // let kpi;
-    // if (badge.kpiId) {
-    //   kpi = {
-    //     id: badge.kpiId
-    //   }
-    // }
-    // else {
-    //   kpi = await kpisModel.createOrUpdate(badge.kpi); // Use createOrUpdate to handle KPI logic
-    // }
     if (existing.length > 0) {
       // If the badge exists, update it
       const updatedBadge = await db
@@ -57,6 +48,7 @@ export class BadgesModel {
   }
 
   async findAllByProject(project_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select({
         badgeName: badges.name,
@@ -87,6 +79,7 @@ export class BadgesModel {
 
 
   async findOneByProject(badge_id: number, project_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select({
         badgeName: badges.name,
@@ -117,6 +110,7 @@ export class BadgesModel {
   }
 
   async getCompletion(badge_id: number): Promise<{ totalProjectPolicies: number; totalPassed: number }> {
+    const db = getDb();
     const result = await db
       .select({
         badgeName: badges.name,
@@ -166,6 +160,7 @@ export class BadgesModel {
   }
 
   async getCompletionLast30Days(badge_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select({
         date: sql<string>`DATE(${policyExecutions.updatedAt})`,  // Group by the day
@@ -214,6 +209,7 @@ export class BadgesModel {
   }
 
   async getEarned(badge_id: number): Promise<{ totalProjects: number; totalEarned: number }> {
+    const db = getDb();
     const result = await db
       .select({
         totalProjects: sql<number>`COUNT(DISTINCT ${policyExecutions.projectId})`, // Total distinct projects
@@ -256,20 +252,25 @@ export class BadgesModel {
   }
 
   async getEffectiveness(badge_id: number): Promise<any> {
-
+    const db = getDb();
   }
+
   async getEffectivenessLast30Days(badge_id: number): Promise<any> {
+    const db = getDb();
   }
 
   async getAdoption(badge_id: number): Promise<any> {
+    const db = getDb();
   }
+
   async getAdoptionLast30Days(badge_id: number): Promise<any> {
+    const db = getDb();
   }
 
   async getPolicies(badge_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select({
-        //badgeName: badges.name,
         policyName: policies.name,
         policyCount: sql<number>`COUNT(1)`,
         passedPolicyCount: sql<number>`COALESCE(SUM(${policyExecutions.result}), 0)`
@@ -297,6 +298,7 @@ export class BadgesModel {
   }
 
   async findAll(): Promise<any> {
+    const db = getDb();
     const result = await db
       .select(
         { id: badges.id },
@@ -314,6 +316,7 @@ export class BadgesModel {
   }
 
   async findOne(badge_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .select(
         {
@@ -334,6 +337,7 @@ export class BadgesModel {
   }
 
   async getPolicyCount(badge_id: number): Promise<number> {
+    const db = getDb();
     const result = await db
       .select({
         policyCount: sql<string>`COUNT(1)`
@@ -345,6 +349,7 @@ export class BadgesModel {
   }
 
   async remove(badge_id: number): Promise<any> {
+    const db = getDb();
     const result = await db
       .delete(badges)
       .where(eq(badges.id, badge_id))

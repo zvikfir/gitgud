@@ -13,7 +13,7 @@ class Project {
   stacks: string[];
   runtimes: string[];
   owners: string[];
-  policies: any;
+  policies: any[];
 }
 
 export { Project };

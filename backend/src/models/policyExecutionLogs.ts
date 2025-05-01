@@ -1,5 +1,5 @@
-import db from '../db/client';
-import { policyExecutionLogs } from '../db/schema';  // Import the languages table model
+import { getDb } from '../infra/db/client';
+import { policyExecutionLogs } from '../infra/db/schema';  // Import the languages table model
 import { eq, desc } from 'drizzle-orm';
 
 export class PolicyExecutionLogsModel {
@@ -7,6 +7,7 @@ export class PolicyExecutionLogsModel {
   }
 
   async create(policy_execution_id: number, message: string, level: string): Promise<any> {
+    const db = getDb();
     const [newObj] = await db
       .insert(policyExecutionLogs)
       .values({
@@ -20,6 +21,7 @@ export class PolicyExecutionLogsModel {
   }
 
   async findAll(): Promise<any> {
+    const db = getDb();
     let policyExecutionLogsResult = await db
       .select()
       .from(policyExecutionLogs)
@@ -28,6 +30,7 @@ export class PolicyExecutionLogsModel {
   }
 
   async fineOneByPolicyExecutionId(id): Promise<any> {
+    const db = getDb();
     let policyExecutionLogsResult = await db
       .select()
       .from(policyExecutionLogs)

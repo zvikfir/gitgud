@@ -1,9 +1,10 @@
-const gitlab = require('./client');
-const _ = require('lodash');
-const fs = require("fs");
-const unzipper = require("unzipper");
-const path = require("path");
-const config = require("config");
+import gitlab from './client';
+import _ from 'lodash';
+import fs from "fs";
+import unzipper from "unzipper";
+import path from "path";
+import config from "config";
+import { getAppConfig } from "../../infra/config/configService";
 
 export class GitLabService {
     async get_projects(search = '') {
@@ -117,7 +118,9 @@ export class GitLabService {
     };
 
     async add_webhook(project_id) {
-        let url = `${config.get("gitgud.host").indexOf('https') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/gitlab/webhook`;
+        const appConfig = getAppConfig();
+        const host = appConfig.gitgud?.host || "localhost";
+        const url = `${host.indexOf('https') > -1 ? host : `https://${host}`}/gitlab/webhook`;
         
         // Check if the webhook already exists
         let hooks = await gitlab.get(`/api/v4/projects/${project_id}/hooks`);
@@ -152,17 +155,23 @@ export class GitLabService {
     }
 
     async remove_webhook(project_id) {
+        const appConfig = getAppConfig();
+        const host = appConfig.gitgud?.host || "localhost";
+        const url = `${host.indexOf('https') > -1 ? host : `https://${host}`}/gitlab/webhook`;
+        
         let hooks = await gitlab.get(`/api/v4/projects/${project_id}/hooks`);
         for (let hook of hooks.data) {
-            if (hook.url === `${config.get("gitgud.host").indexOf('https') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/gitlab/webhook`) {
+            if (hook.url === url) {
                 await gitlab.delete(`/api/v4/projects/${project_id}/hooks/${hook.id}`);
             }
         }
     }
 
     async add_badge(project_id, badge) {
-        let link_url = `${config.get("gitgud.host").indexOf('https') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/projects/${project_id}`;
-        let image_url = `${config.get("gitgud.host").indexOf('https') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/api/public/${project_id}/badge.svg`;
+        const appConfig = getAppConfig();
+        const host = appConfig.gitgud?.host || "localhost";
+        const link_url = `${host.indexOf('https') > -1 ? host : `https://${host}`}/projects/${project_id}`;
+        const image_url = `${host.indexOf('https') > -1 ? host : `https://${host}`}/api/public/${project_id}/badge.svg`;
 
         // Check if the badge already exists
         let badges = await gitlab.get(`/api/v4/projects/${project_id}/badges`);
@@ -184,10 +193,13 @@ export class GitLabService {
     }
 
     async remove_badge(project_id, badge) {
+        const appConfig = getAppConfig();
+        const host = appConfig.gitgud?.host || "localhost";
+        const image_url = `${host.indexOf('https') > -1 ? host : `https://${host}`}/api/public/${project_id}/badge.svg`;
 
         let badges = await gitlab.get(`/api/v4/projects/${project_id}/badges`);
         for (let b of badges.data) {
-            if (b.image_url === `${config.get("gitgud.host").indexOf('https') > -1 ? config.get("gitgud.host") : `https://${config.get("gitgud.host")}`}/api/public/${project_id}/badge.svg`) {
+            if (b.image_url === image_url) {
                 await gitlab.delete(`/api/v4/projects/${project_id}/badges/${b.id}`);
             }
         }
