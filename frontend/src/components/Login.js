@@ -2,7 +2,7 @@ import React from "react";
 import logo from '../assets/logo.svg';
 const Login = () => {
   const handleLogin = () => {
-    window.location.href = "/gitlab/auth";
+    window.location.href = "http://localhost:3001/gitlab/auth";
   };
 
   return (

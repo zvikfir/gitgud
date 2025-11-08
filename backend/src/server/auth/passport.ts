@@ -38,7 +38,7 @@ export default function setupAuth(app: Express) {
         {
           clientID: appConfig.gitlab.client_id || '',
           clientSecret: appConfig.gitlab.client_secret || '',
-          callbackURL: `${(appConfig.gitgud?.host || '').indexOf('https://') > -1 ? appConfig.gitgud?.host : `https://${appConfig.gitgud?.host}`}/gitlab/auth/callback`,
+          callbackURL: `${appConfig.gitgud?.host}/gitlab/auth/callback`,
           baseURL: appConfig.gitlab.uri,
         },
         function (accessToken, refreshToken, profile, done) {
@@ -101,7 +101,7 @@ export default function setupAuth(app: Express) {
           data: req.user,
           expiresAt
         });
-        res.cookie("session_id", sessionId, { httpOnly: true, secure: true });
+        res.cookie("session_id", sessionId, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
         const returnTo = (req as any).session.returnTo || '/';
         delete (req as any).session.returnTo;
         res.redirect(returnTo);

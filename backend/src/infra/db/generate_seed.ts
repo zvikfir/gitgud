@@ -1,8 +1,8 @@
 import { kpis, policies, badges, lifecycles, userTypes, runtimes, 
          Kpi, Policy, Badge, Lifecycle, UserType, Runtime } from './schema';
-import db from './client';
 import fs from 'fs';
 import path from 'path';
+import { getDb } from './client';
 
 const seedData: {
     kpis: Kpi[];
@@ -61,7 +61,7 @@ export const seed = {
     runtimes: ${JSON.stringify(seedData.runtimes, null, 2)}
 };`;
 
-    const outputPath = path.join(__dirname, '../../migrations/seed.ts');
+    const outputPath = path.join(__dirname, '../../../migrations/seed.ts');
     fs.writeFileSync(outputPath, seedContent);
     console.log(`Seed file generated at: ${outputPath}`);
 };
@@ -69,6 +69,7 @@ export const seed = {
 generateSeedFile();
 
 async function dumpData() {
+    const db = getDb();
     const data = {
         kpis: await db.select().from(kpis),
         policies: await db.select().from(policies),

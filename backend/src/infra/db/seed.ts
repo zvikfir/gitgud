@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 async function seed() {
-    const seedPath = path.join(__dirname, '../../data/seed-data.json');
+    const seedPath = path.join(__dirname, '../../../data/seed-data.json');
     
     if (!fs.existsSync(seedPath)) {
         console.error('No seed data found! Run generate_seed first.');
