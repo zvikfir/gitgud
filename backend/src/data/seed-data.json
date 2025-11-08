@@ -1,0 +1,210 @@
+{
+  "kpis": [
+    {
+      "id": 1,
+      "name": "Best Practices",
+      "description": "Best Practices"
+    },
+    {
+      "id": 2,
+      "name": "Compliance",
+      "description": "Compliance"
+    },
+    {
+      "id": 3,
+      "name": "Resilience",
+      "description": "Resilience"
+    }
+  ],
+  "policies": [
+    {
+      "id": 4,
+      "name": "Helm Chart Exists",
+      "uuid": "compliance_helm-chart",
+      "description": "Ensure that a Helm chart exists",
+      "version": "1.0.0",
+      "kpiId": 1,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "",
+      "tags": "",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 100,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function (context, project, payload) {\n        const { logger, stats, gitlab, utils } = context;\n\n        logger.info(`Checking if a Helm chart exists in the repository in default branch ${project.default_branch}`);\n\n        logger.info('Fetching files list from gitlab')\n\n        const { data: files } = await gitlab.get(`/api/v4/projects/${project.id}/repository/tree`, {\n            ref: project.default_branch,\n            path: 'helm',\n        });\n\n        logger.info('Fetched following files: ' + JSON.stringify(files));\n\n        logger.info('Checking if a folder named `helm` exists in the repository');\n\n        // Currently it's just looking for a helm directory in the project's root.\n        // We can extend this behavior by looking for Chart.yaml and other helm specific files.\n        return files.filter(file => /helm/.test(file.name) && /tree/.test(file.type)).length === 1;\n    }"
+    },
+    {
+      "id": 2,
+      "name": "Branch Protection Enabled",
+      "uuid": "compliance_branch-protection",
+      "description": "Ensure that the default branch is protected",
+      "version": "1.0.0",
+      "kpiId": 2,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "To enable branch protection on GitLab, navigate to your project's \"Settings\" > \"Repository\" > \"Protected branches\", specify the branch, set permissions, and click \"Protect\".",
+      "tags": "",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 100,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function (context, project, payload) {\n    const { logger, stats, gitlab, utils } = context;\n\n    const defaultBranch = project.default_branch;\n\n    logger.info(`Checking if the default branch ${defaultBranch} is protected`);\n    const {data: protectedBranch} = await gitlab.get(`/api/v4/projects/${project.id}/protected_branches/${defaultBranch}`);\n\n    logger.info('Branch info: ' + JSON.stringify(protectedBranch));\n\n    return protectedBranch.allow_force_push === false;\n  }"
+    },
+    {
+      "id": 3,
+      "name": "Dependency Declaration Exists",
+      "uuid": "compliance_dependency-decleration",
+      "description": "Check if a file containing app's dependencies (e.g. requirements.txt for Python) exists in the repository",
+      "version": "1.0.0",
+      "kpiId": 2,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "",
+      "tags": "",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 100,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function (context, project, payload) {\n        const { logger, stats, gitlab, utils } = context;\n\n        const dependencyDeclerationsFilesByLanguage = {\n            Python: ['requirements.txt'],\n            JavaScript: ['package.json'],\n            Java: ['pom.xml'],\n            Ruby: ['Gemfile'],\n            PHP: ['composer.json'],\n            Go: ['go.mod'],\n        };\n\n        const filteredLanguages = Object.keys(project.languages).filter(language => language in dependencyDeclerationsFilesByLanguage);\n\n        const filteredDependencyDeclerationsFilesByLanguage = Object.fromEntries(\n            Object.entries(dependencyDeclerationsFilesByLanguage)\n                .filter(entry => entry[0] in project.languages)\n        );\n\n        logger.info('Checking if depdenency declaration file exists in the repository according to the following map: ' + JSON.stringify(filteredDependencyDeclerationsFilesByLanguage))\n\n        const { data: files } = await gitlab.get(`/api/v4/projects/${project.id}/repository/tree`, {\n            ref: project.default_branch,\n            recursive: true,\n        });\n\n        const projectFileNames = files.map(file => file.name);\n\n        return Object.keys(filteredDependencyDeclerationsFilesByLanguage).reduce((isValid, language) => {\n            const dependencyDeclerationsFilesForLanguage = dependencyDeclerationsFilesByLanguage[language];\n            logger.info('Looking for files ' + JSON.stringify(dependencyDeclerationsFilesForLanguage) + ' in language ' + language);\n            const filesFoundInRepo = dependencyDeclerationsFilesForLanguage.reduce((filesFound, currFile) => projectFileNames.includes(currFile) ? filesFound.concat([currFile]) : filesFound, []);\n            logger.info('Files found in repo: ' + JSON.stringify(filesFoundInRepo));\n            return isValid && filesFoundInRepo.length > 0;\n        });\n    }"
+    },
+    {
+      "id": 5,
+      "name": "Min Replicas",
+      "uuid": "resilience_min-replicas",
+      "description": "Ensure that the minimum number of replicas is set to 3",
+      "version": "1.0.0",
+      "kpiId": 3,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "",
+      "tags": "",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 100,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function (context, project, payload) {\n        const { logger, stats, gitlab, kc, utils } = context;\n\n        const k8sClient = kc.makeApiClient(k8s.AppsV1Api);\n\n        const currentContext = kc.currentContext;\n        const currentNamespace = kc.getContextObject(currentContext).namespace || 'default';\n\n        const { body: { items: deployments } } = await k8sClient.listNamespacedDeployment(currentNamespace);\n\n        logger.info('Deployments info: ' + JSON.stringify(deployments));\n\n        const deploymentsWithLessThan3Replicas = deployments.filter(deployment => deployment.spec.replicas < 3);\n\n        logger.info('Deployments with less than 3 replicas: ' + JSON.stringify(deploymentsWithLessThan3Replicas.map(deployment => deployment.metadata.name)));\n\n        return deploymentsWithLessThan3Replicas.length === 0;\n    }"
+    },
+    {
+      "id": 11,
+      "name": "Code Reviews Enforced",
+      "uuid": "7216ae74-0efb-4ea7-9948-1c74c75f9dfa",
+      "description": "Ensure merge requests require at least one approval before merging.",
+      "version": "1.0.0",
+      "kpiId": 1,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "# Code Reviews Enforced Policy\n\n## Overview\nThe \"Code Reviews Enforced\" policy mandates that all merge requests (MRs) require at least one approval from designated reviewers before they can be merged into the main branch. This practice is crucial for maintaining code quality, fostering collaboration, and catching potential issues early in the development process. By implementing this policy, organizations can ensure that multiple sets of eyes review the code, leading to improved code reliability and adherence to coding standards.\n\n## Implementation Details\nTo implement the \"Code Reviews Enforced\" policy, the following steps should be taken:\n\n1. **Configure Repository Settings:**\n   - Use the repository management tools available (e.g., GitHub, GitLab, Bitbucket) to set branch protection rules that enforce the requirement for at least one approval on all merge requests targeting the main branch.\n\n2. **Define Reviewer Roles:**\n   - Establish roles or teams responsible for reviewing merge requests. This could include senior developers, team leads, or specialized reviewers based on the code being changed.\n\n3. **Automate Notifications:**\n   - Set up automated notifications for reviewers when a merge request is created or updated to ensure timely reviews.\n\n4. **Monitor Compliance:**\n   - Regularly check compliance with the policy. Use analytics or dashboards provided by your version control system to monitor the number of merge requests that comply with the review requirement.\n\n5. **Documentation and Training:**\n   - Provide documentation or training sessions for team members on the importance of code reviews and how to effectively review code.\n\n## Best Practices\n- **Clear Review Criteria:** Establish clear guidelines for what constitutes a good review, including aspects such as code style, functionality, and performance.\n- **Use Review Tools:** Leverage code review tools that enhance the review process, such as inline comments, code suggestions, and integration with CI/CD pipelines.\n- **Encourage Constructive Feedback:** Foster an environment where feedback is constructive and focused on improving the code rather than personal criticism.\n- **Limit Merge Request Size:** Encourage smaller, more frequent merge requests to make reviews more manageable and less time-consuming.\n- **Set Review Deadlines:** Implement a timeline for how long reviewers have to complete their reviews to keep the development process moving smoothly.\n- **Rotate Reviewers:** Regularly rotate reviewers to ensure diverse perspectives and reduce the risk of knowledge silos.\n\nBy adhering to the \"Code Reviews Enforced\" policy, organizations can significantly enhance their code quality and team collaboration, ultimately leading to more robust software products.",
+      "tags": "code-review,merge-requests,approval-required",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 1000,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function handle(context, project) {\n  const { logger, gitlab } = context;\n\n  logger.info('Checking if code reviews are enforced');\n  \n  try {\n    const settings = await gitlab.get(`/projects/${project.id}`);\n    const requiresApproval = settings.approvals_before_merge > 0;\n\n    if (!requiresApproval) {\n      logger.error('Merge requests do not require approval');\n      return false;\n    }\n\n    logger.info('Merge requests require at least one approval');\n    return true;\n  } catch (error) {\n    logger.error(`Failed to check project settings: ${error.message}`);\n    return false;\n  }\n}"
+    },
+    {
+      "id": 1,
+      "name": "Readme exists",
+      "uuid": "best-practices_readme",
+      "description": "Check if a README.md file exists in the repository",
+      "version": "1.0.0",
+      "kpiId": 1,
+      "criteria": {
+        "events": [
+          "push"
+        ]
+      },
+      "longDescription": "# Help Text\n\nThis policy checks if a README.md file exists in the repository in the default branch and has a minimum size of 10 bytes.\n\n## Description\n\nThe README.md file is a common file in a repository that provides information about the project. It is often the first file that users see when they visit a repository. Having a README.md file in the repository is a good practice as it helps users understand the purpose of the project and how to use it.\n\n## Examples\n\n- A repository with a README.md file in the default branch\n- A repository with a README.md file that is at least 10 bytes in size\n\n## Remediation\n\nIf the README.md file does not exist in the repository or is less than 10 bytes in size, you can create a new README.md file or update the existing one to meet the minimum size requirement.",
+      "tags": "",
+      "createdAt": "2024-12-02T12:23:48.873Z",
+      "ordinal": 100,
+      "enabled": true,
+      "draft": true,
+      "scriptJs": "async function (context, project, payload) {\n        const { logger, stats, gitlab, utils } = context;\n\n        const minimumLengthForReadme = 10;\n\n        logger.info(`Checking if a README.md file exists in the repository in default branch ${project.default_branch} and has minimum size of ${minimumLengthForReadme} bytes`);\n\n        const response = await gitlab.head(`/api/v4/projects/${project.id}/repository/files/README.md?ref=${project.default_branch}`);\n\n        logger.info('Readme info: ' + JSON.stringify(response.headers));\n\n        const { 'x-gitlab-size': readmeFileSize } = response.headers;\n\n        logger.info('Readme size: ' + readmeFileSize);\n\n        return readmeFileSize > minimumLengthForReadme;\n    }"
+    }
+  ],
+  "badges": [
+    {
+      "id": 1,
+      "name": "Best Practices",
+      "description": "Best Practices",
+      "kpiId": 1
+    },
+    {
+      "id": 2,
+      "name": "Compliance",
+      "description": "Compliance",
+      "kpiId": 2
+    },
+    {
+      "id": 3,
+      "name": "Resilience",
+      "description": "Resilience",
+      "kpiId": 3
+    }
+  ],
+  "lifecycles": [
+    {
+      "id": 1,
+      "name": "early-development",
+      "description": ""
+    },
+    {
+      "id": 2,
+      "name": "Early development",
+      "description": "Best The project is actively being developed, with frequent changes and updates. This is the initial phase of the project lifecycle."
+    },
+    {
+      "id": 3,
+      "name": "Operational",
+      "description": "The project is larger, with more users and more features. The focus here is on stability, security, and performance."
+    },
+    {
+      "id": 4,
+      "name": "End-of-life",
+      "description": "The project is no longer actively developed or maintained. This stage may involve archiving the project or transitioning it to a new team."
+    }
+  ],
+  "userTypes": [
+    {
+      "id": 1,
+      "type": "developer"
+    },
+    {
+      "id": 2,
+      "type": "manager"
+    }
+  ],
+  "runtimes": [
+    {
+      "id": 1,
+      "name": "Container",
+      "description": ""
+    },
+    {
+      "id": 2,
+      "name": "Library",
+      "description": ""
+    },
+    {
+      "id": 3,
+      "name": "Command line",
+      "description": ""
+    }
+  ]
+}
