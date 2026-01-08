@@ -41,30 +41,47 @@ cmd_button(
     requires_confirmation=True
 )
 
-def update_backend_tilt_yaml(values):
-    for key, value in values.items():
-        local("touch backend/config/tilt.yaml && yq e '" + key + " = \"" + str(value) + "\"' -i backend/config/tilt.yaml")
+def create_backend_config():
+    values = {
+      '.gitgud.host': "http://localhost:3001",
+      '.gitlab.clientId': gitlab_client_id,
+      '.gitlab.clientSecret': gitlab_client_secret,
+      '.gitlab.baseUri': gitlab_uri,
+      '.gitlab.accessToken': gitlab_access_token,
+      '.gitlab.oauthRedirectPath': '/auth/gitlab/callback',
+      '.postgres.url': "postgresql://" + postgres_user + ":" + postgres_password + "@postgresql:5432/" + postgres_db_name,
+      # '.openai.api_key': openai_api_token
+    }
+
+    
+    update_tilt_config_cmd = ' && '.join(["touch backend/config/tilt.yaml"] + [
+      'yq e \'' + key + ' = "' + str(value) + '"\' -i backend/config/tilt.yaml' for key, value in values.items()
+    ])
+    
+    local_resource(
+      'backend-config',
+      deps=['.env'],
+      ignore=[],
+      resource_deps=[],
+      cmd=update_tilt_config_cmd,
+    )
 
 def create_backend():
-  backend_tilt_yaml_values = {
-    '.gitgud.host': "http://localhost:3001",
-    '.gitlab.client_id': gitlab_client_id,
-    '.gitlab.client_secret': gitlab_client_secret,
-    '.gitlab.uri': gitlab_uri,
-    '.gitlab.access_token': gitlab_access_token,
-    '.postgres.url': "postgresql://" + postgres_user + ":" + postgres_password + "@postgresql:5432/" + postgres_db_name,
-    '.openai.api_key': openai_api_token
-  }
+  create_backend_config()
 
-  update_backend_tilt_yaml(backend_tilt_yaml_values)
+  env = {
+    'NODE_ENV': 'tilt',
+  }
 
   local_resource(
     'backend',
     cmd='cd backend && npm install && npm run migration:migrate && npm run db:seed:generate && npm run migration:seed',
     deps=['backend/'],
     ignore=['backend/node_modules', 'backend/package-lock.json', 'backend/migrations/seed.ts', 'backend/src/data/seed-data.json'],
-    resource_deps=['kafka', 'postgres'],
-    serve_cmd='cd backend && NODE_CONFIG_ENV=tilt npm run dev',
+    resource_deps=['kafka', 'postgres', 'backend-config'],
+    env=env,
+    serve_env=env,
+    serve_cmd='cd backend && npm run dev',
     links=['http://localhost:3001']
   )
 
