@@ -7,9 +7,9 @@ class GitLabClient {
   client: any;
   constructor() {
     this.client = axios.create({
-      baseURL: appConfig.gitlab.uri,
+      baseURL: appConfig.gitlab.baseUri,
       headers: {
-        "Private-Token": appConfig.gitlab.access_token,
+        "Private-Token": appConfig.gitlab.accessToken,
       },
     });
     this.client.interceptors.request.use(

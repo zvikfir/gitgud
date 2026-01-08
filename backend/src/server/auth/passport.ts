@@ -36,10 +36,10 @@ export default function setupAuth(app: Express) {
     passport.use(
       new GitLabStrategy(
         {
-          clientID: appConfig.gitlab.client_id || '',
-          clientSecret: appConfig.gitlab.client_secret || '',
-          callbackURL: `${appConfig.gitgud?.host}/gitlab/auth/callback`,
-          baseURL: appConfig.gitlab.uri,
+          clientID: appConfig.gitlab.clientId || '',
+          clientSecret: appConfig.gitlab.clientSecret || '',
+          callbackURL: `${appConfig.gitgud.host}/${appConfig.gitlab.oauthRedirectPath}`,
+          baseURL: appConfig.gitlab.baseUri,
         },
         function (accessToken, refreshToken, profile, done) {
           return done(null, profile);
